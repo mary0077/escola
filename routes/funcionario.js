@@ -6,165 +6,177 @@ const funcionarioController = require('../controllers/funcionarioController');
  * @swagger
  * components:
  *   schemas:
- *     Aluno:
+ *     Funcionario:
  *       type: object
  *       required:
  *         - nome
- *         - idade
- *         - nota_primeiro_semestre
- *         - nota_segundo_semestre
- *         - nome_professor
- *         - numero_sala
+ *         - Email
+ *         - senha
+ *         - cargo
  *       properties:
  *         id:
  *           type: integer
  *           description: ID gerado automaticamente
  *         nome:
  *           type: string
- *         idade:
- *           type: integer
- *         nota_primeiro_semestre:
- *           type: number
- *           format: float
- *         nota_segundo_semestre:
- *           type: number
- *           format: float
- *         nome_professor:
+ *         Email:
  *           type: string
- *         numero_sala:
- *           type: integer
+ *           format: email
+ *         senha:
+ *           type: string
+ *         cargo:
+ *           type: string
  *       example:
  *         id: 1
- *         nome: "João Silva"
- *         idade: 15
- *         nota_primeiro_semestre: 8.5
- *         nota_segundo_semestre: 9.0
- *         nome_professor: "Prof. Carlos"
- *         numero_sala: 101
+ *         nome: "Maria Oliveira"
+ *         Email: "maria@example.com"
+ *         senha: "senhaSegura"
+ *         cargo: "Desenvolvedora"
  */
 
 /**
  * @swagger
  * tags:
- *   name: Alunos
- *   description: API para gerenciar alunos
+ *   name: Funcionarios
+ *   description: API para gerenciar funcionários
  */
 
 /**
  * @swagger
- * /alunos:
+ * /funcionarios:
  *   get:
- *     summary: Retorna a lista de todos os alunos
- *     tags: [Alunos]
+ *     summary: Retorna a lista de todos os funcionários
+ *     tags: [Funcionarios]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de alunos
+ *         description: Lista de funcionários
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Aluno'
+ *                 $ref: '#/components/schemas/Funcionario'
  */
 router.get('/', funcionarioController.getAll);
 
 /**
  * @swagger
- * /alunos:
+ * /funcionarios:
  *   post:
- *     summary: Cria um novo aluno
- *     tags: [Alunos]
+ *     summary: Cria um novo funcionário
+ *     tags: [Funcionarios]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Aluno'
+ *             $ref: '#/components/schemas/Funcionario'
  *     responses:
  *       201:
- *         description: Aluno criado
+ *         description: Funcionário criado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Aluno'
+ *               $ref: '#/components/schemas/Funcionario'
  */
 router.post('/', funcionarioController.create);
 
 /**
  * @swagger
- * /alunos/{id}:
+ * /funcionarios/{id}:
  *   get:
- *     summary: Retorna um aluno pelo ID
- *     tags: [Alunos]
+ *     summary: Retorna um funcionário pelo ID
+ *     tags: [Funcionarios]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID do aluno
+ *         description: ID do funcionário
  *     responses:
  *       200:
- *         description: Dados do aluno
+ *         description: Dados do funcionário
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Aluno'
+ *               $ref: '#/components/schemas/Funcionario'
  *       404:
- *         description: Aluno não encontrado
+ *         description: Funcionário não encontrado
  */
 router.get('/:id', funcionarioController.getById);
 
 /**
  * @swagger
- * /alunos/{id}:
+ * /funcionarios/{id}:
  *   put:
- *     summary: Atualiza um aluno pelo ID
- *     tags: [Alunos]
+ *     summary: Atualiza um funcionário pelo ID
+ *     tags: [Funcionarios]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID do aluno
+ *         description: ID do funcionário
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Aluno'
+ *             $ref: '#/components/schemas/Funcionario'
  *     responses:
  *       200:
- *         description: Aluno atualizado
+ *         description: Funcionário atualizado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Aluno'
+ *               $ref: '#/components/schemas/Funcionario'
  *       404:
- *         description: Aluno não encontrado
+ *         description: Funcionário não encontrado
  */
 router.put('/:id', funcionarioController.update);
 
 /**
  * @swagger
- * /alunos/{id}:
+ * /funcionarios/{id}:
  *   delete:
- *     summary: Remove um aluno pelo ID
- *     tags: [Alunos]
+ *     summary: Remove um funcionário pelo ID
+ *     tags: [Funcionarios]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID do aluno
+ *         description: ID do funcionário
  *     responses:
  *       204:
- *         description: Aluno removido
+ *         description: Funcionário removido
  *       404:
- *         description: Aluno não encontrado
+ *         description: Funcionário não encontrado
  */
 router.delete('/:id', funcionarioController.delete);
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: Token JWT para autenticação.
+ */
 
 module.exports = router;

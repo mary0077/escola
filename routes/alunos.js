@@ -56,6 +56,8 @@ const alunoController = require('../controllers/alunoController');
  *   get:
  *     summary: Retorna a lista de todos os alunos
  *     tags: [Alunos]
+ *     security:
+ *      - BearerAuth: [] 
  *     responses:
  *       200:
  *         description: Lista de alunos
@@ -74,6 +76,8 @@ router.get('/', alunoController.getAll);
  *   post:
  *     summary: Cria um novo aluno
  *     tags: [Alunos]
+ *     security:
+ *      - BearerAuth: [] 
  *     requestBody:
  *       required: true
  *       content:
@@ -96,6 +100,8 @@ router.post('/', alunoController.create);
  *   get:
  *     summary: Retorna um aluno pelo ID
  *     tags: [Alunos]
+ *     security:
+ *      - BearerAuth: [] 
  *     parameters:
  *       - in: path
  *         name: id
@@ -121,6 +127,8 @@ router.get('/:id', alunoController.getById);
  *   put:
  *     summary: Atualiza um aluno pelo ID
  *     tags: [Alunos]
+ *     security:
+ *      - BearerAuth: [] 
  *     parameters:
  *       - in: path
  *         name: id
@@ -152,6 +160,8 @@ router.put('/:id', alunoController.update);
  *   delete:
  *     summary: Remove um aluno pelo ID
  *     tags: [Alunos]
+ *     security:
+ *      - BearerAuth: [] 
  *     parameters:
  *       - in: path
  *         name: id

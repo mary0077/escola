@@ -2,168 +2,169 @@ const express = require('express');
 const router = express.Router();
 const turmaController = require('../controllers/turmaController');
 
+// Documentação Swagger permanece a mesma
 /**
  * @swagger
  * components:
  *   schemas:
- *     Aluno:
+ *     Turma:
  *       type: object
  *       required:
  *         - nome
- *         - idade
- *         - nota_primeiro_semestre
- *         - nota_segundo_semestre
- *         - nome_professor
- *         - numero_sala
+ *         - instrutor
+ *         - alunos
  *       properties:
  *         id:
  *           type: integer
  *           description: ID gerado automaticamente
  *         nome:
  *           type: string
- *         idade:
+ *         instrutor:
  *           type: integer
- *         nota_primeiro_semestre:
- *           type: number
- *           format: float
- *         nota_segundo_semestre:
- *           type: number
- *           format: float
- *         nome_professor:
- *           type: string
- *         numero_sala:
- *           type: integer
+ *           description: ID do instrutor (Funcionário)
+ *         alunos:
+ *           type: array
+ *           items:
+ *             type: integer
+ *           description: Lista de IDs dos alunos
  *       example:
  *         id: 1
- *         nome: "João Silva"
- *         idade: 15
- *         nota_primeiro_semestre: 8.5
- *         nota_segundo_semestre: 9.0
- *         nome_professor: "Prof. Carlos"
- *         numero_sala: 101
+ *         nome: "Turma de Matemática"
+ *         instrutor: 2
+ *         alunos: [1, 2, 3]
  */
 
 /**
  * @swagger
  * tags:
- *   name: Alunos
- *   description: API para gerenciar alunos
+ *   name: Turmas
+ *   description: API para gerenciar turmas
  */
 
 /**
  * @swagger
- * /alunos:
+ * /turmas:
  *   get:
- *     summary: Retorna a lista de todos os alunos
- *     tags: [Alunos]
+ *     summary: Retorna a lista de todas as turmas
+ *     tags: [Turmas]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de alunos
+ *         description: Lista de turmas
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Aluno'
+ *                 $ref: '#/components/schemas/Turma'
  */
 router.get('/', turmaController.getAll);
 
 /**
  * @swagger
- * /alunos:
+ * /turmas:
  *   post:
- *     summary: Cria um novo aluno
- *     tags: [Alunos]
+ *     summary: Cria uma nova turma
+ *     tags: [Turmas]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Aluno'
+ *             $ref: '#/components/schemas/Turma'
  *     responses:
  *       201:
- *         description: Aluno criado
+ *         description: Turma criada
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Aluno'
+ *               $ref: '#/components/schemas/Turma'
  */
 router.post('/', turmaController.create);
 
 /**
  * @swagger
- * /alunos/{id}:
+ * /turmas/{id}:
  *   get:
- *     summary: Retorna um aluno pelo ID
- *     tags: [Alunos]
+ *     summary: Retorna uma turma pelo ID
+ *     tags: [Turmas]
+ *     security:
+ *       - BearerAuth: [] 
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID do aluno
+ *         description: ID da turma
  *     responses:
  *       200:
- *         description: Dados do aluno
+ *         description: Dados da turma
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Aluno'
+ *               $ref: '#/components/schemas/Turma'
  *       404:
- *         description: Aluno não encontrado
+ *         description: Turma não encontrada
  */
 router.get('/:id', turmaController.getById);
 
 /**
  * @swagger
- * /alunos/{id}:
+ * /turmas/{id}:
  *   put:
- *     summary: Atualiza um aluno pelo ID
- *     tags: [Alunos]
+ *     summary: Atualiza uma turma pelo ID
+ *     tags: [Turmas]
+ *     security:
+ *       - BearerAuth: [] 
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID do aluno
+ *         description: ID da turma
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Aluno'
+ *             $ref: '#/components/schemas/Turma'
  *     responses:
  *       200:
- *         description: Aluno atualizado
+ *         description: Turma atualizada
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Aluno'
+ *               $ref: '#/components/schemas/Turma'
  *       404:
- *         description: Aluno não encontrado
+ *         description: Turma não encontrada
  */
 router.put('/:id', turmaController.update);
 
 /**
  * @swagger
- * /alunos/{id}:
+ * /turmas/{id}:
  *   delete:
- *     summary: Remove um aluno pelo ID
- *     tags: [Alunos]
+ *     summary: Remove uma turma pelo ID
+ *     tags: [Turmas]
+ *     security:
+ *       - BearerAuth: [] 
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID do aluno
+ *         description: ID da turma
  *     responses:
  *       204:
- *         description: Aluno removido
+ *         description: Turma removida
  *       404:
- *         description: Aluno não encontrado
+ *         description: Turma não encontrada
  */
 router.delete('/:id', turmaController.delete);
 
