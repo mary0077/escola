@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Aluno = require('./aluno.js');
 
-const Aluno = sequelize.define('Turma', {
+const Turma = sequelize.define('Turma', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -12,11 +13,11 @@ const Aluno = sequelize.define('Turma', {
     allowNull: false
   },
   instrutor: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-        model: Aluno,
-        key: 'id'
+      model: Aluno,
+      key: 'id'
     }
   },
   Alunos: {
@@ -25,4 +26,4 @@ const Aluno = sequelize.define('Turma', {
   }
 });
 
-module.exports = Aluno;
+module.exports = Turma;
