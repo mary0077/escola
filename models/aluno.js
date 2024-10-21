@@ -9,27 +9,44 @@ const Aluno = sequelize.define('Aluno', {
   },
   nome: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      len: [3]
+    }
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true
+    }
   },
   idade: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      min: 0 
+    }
   },
-  nota_primeiro_semestre: {
+  NotaPrimeiroModulo: {
     type: DataTypes.FLOAT,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      max: 10.0
+    }
   },
-  nota_segundo_semestre: {
+  NotaSegundoModulo: {
     type: DataTypes.FLOAT,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      max: 10.0
+    }
   },
-  nome_professor: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  numero_sala: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+  Media: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+    defaultValue: null
   }
 });
 
