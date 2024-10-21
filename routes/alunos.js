@@ -10,6 +10,7 @@ const alunoController = require('../controllers/alunoController');
  *       type: object
  *       required:
  *         - nome
+ *         - email
  *         - idade
  *         - nota_primeiro_semestre
  *         - nota_segundo_semestre
@@ -21,6 +22,10 @@ const alunoController = require('../controllers/alunoController');
  *           description: ID gerado automaticamente
  *         nome:
  *           type: string
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email do aluno, deve ser único
  *         idade:
  *           type: integer
  *         nota_primeiro_semestre:
@@ -36,6 +41,7 @@ const alunoController = require('../controllers/alunoController');
  *       example:
  *         id: 1
  *         nome: "João Silva"
+ *         email: "joao.silva@example.com"
  *         idade: 15
  *         nota_primeiro_semestre: 8.5
  *         nota_segundo_semestre: 9.0
