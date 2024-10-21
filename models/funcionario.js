@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Aluno = sequelize.define('Funcionario', {
+const Funcionario = sequelize.define('Funcionario', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -30,7 +30,11 @@ const Aluno = sequelize.define('Funcionario', {
             msg: "A senha deve conter pelo menos 6 caracteres!."
         }
     }
+  },
+  cargo:{
+    type: DataTypes.STRING,
+    allowNull: false
   }
 });
 
-module.exports = Aluno;
+module.exports = Funcionario;
