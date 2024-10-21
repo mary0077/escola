@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/desktop.css">
+    <title>Login</title>
+</head>
+<body>
+    <main>
+        <form action="/auth/register" method="POST">
+            <div class="input_container">
+                <label for="">Nome:</label>
+                <input type="text" name="nome" id="nome">
+            </div>
+            <div class="input_container">
+                <label for="">Cargo:</label>
+                <input type="text" name="cargo" id="cargo">
+            </div>
+            <div class="input_container">
+                <label for="">E-mail:</label>
+                <input type="text" name="email" id="email" oninput="onInputVerify()">
+            </div>
+            <div class="input_container">
+                <label for="">Senha:</label>
+                <input type="password" name="senha" id="senha" oninput="onInputVerify()">
+            </div>
+            <input type="submit" value="Registrar" id="submit">
+        </form>
+    </main>
+    <script>
+        function isDisable(document, value){
+            document.disabled = value;
+        }
+        //function onInputVerify(){
+        //    const buttonDocument = document.getElementById('submit')
+        //    isDisable(buttonDocument, verifyEmail());
+        //    isDisable(buttonDocument, verifyPasswd());
+        //}
+        function verifyEmail(){
+            const Document = document.getElementById('email');
+            const email = Document.value;
+
+            const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if(!email.test(regex)){
+                return false;
+            }
+
+            return true;
+        }
+        function verifyPasswd(){
+            const Document = document.getElementById('senha');
+            const senha = Document.value;
+
+            if(senha.length < 6){
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+    
+</body>
+</html>
