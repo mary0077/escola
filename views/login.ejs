@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/desktop.css">
+    <title>Login</title>
+</head>
+<body>
+    <main>
+        <form action="/auth/login" method="POST">
+            <div class="input_container">
+                <label for="">Email:</label>
+                <input type="text" name="email">
+            </div>
+            <div class="input_container">
+                <label for="">Senha:</label>
+                <input type="password" name="senha">
+            </div>
+            <div class="input_container click_me">
+                <p>Novo por aqui ? Clique <a href="/auth/register">Aqui</a> para se registrar!.</p>
+            </div>
+            <input type="submit" value="Logar">
+        </form>
+    </main>
+</body>
+</html>
