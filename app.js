@@ -8,6 +8,7 @@ const turmaRouter = require('./routes/turma');
 const authRouter = require('./routes/auth');
 const setupSwagger = require('./swagger');
 const path = require('path');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -23,7 +24,7 @@ const authenticateJWT = (req, res, next) => {
       return res.sendStatus(403); // Acesso proibido
   }
 
-  jwt.verify(token, secretKey, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
           return res.sendStatus(403); // Acesso proibido
       }
