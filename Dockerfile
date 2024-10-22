@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:18
 
 WORKDIR /app
 
@@ -6,8 +6,12 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npx prisma generate
+
 COPY . .
+
+RUN npx prisma migrate deploy
 
 EXPOSE 3000
 
-CMD ["node", "app.js"]
+CMD ["npm", "start"]
