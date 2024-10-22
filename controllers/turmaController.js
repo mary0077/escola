@@ -11,8 +11,8 @@ exports.getAll = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const Turma = await Turma.create(req.body);
-    res.status(201).json(Turma);
+    const turma = await Turma.create(req.body);
+    res.status(201).json(turma);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -20,11 +20,11 @@ exports.create = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const Turma = await Turma.findByPk(req.params.id);
-    if (Turma) {
-      res.json(Turma);
+    const turma = await Turma.findByPk(req.params.id);
+    if (turma) {
+      res.json(turma);
     } else {
-      res.status(404).json({ error: 'Turma não encontrado' });
+      res.status(404).json({ error: 'Turma não encontrada' });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -40,7 +40,7 @@ exports.update = async (req, res) => {
       const updatedTurma = await Turma.findByPk(req.params.id);
       res.json(updatedTurma);
     } else {
-      res.status(404).json({ error: 'Turma não encontrado' });
+      res.status(404).json({ error: 'Turma não encontrada' });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -55,7 +55,7 @@ exports.delete = async (req, res) => {
     if (deleted) {
       res.status(204).json();
     } else {
-      res.status(404).json({ error: 'Turma não encontrado' });
+      res.status(404).json({ error: 'Turma não encontrada' });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
