@@ -37,8 +37,7 @@ const authenticateJWT = (req, res, next) => {
       return res.sendStatus(403); // Acesso proibido
   }
 
-  // Use jwtSecret em vez de secretKey
-  jwt.verify(token, jwtSecret, (err, user) => { // Substitua secretKey por jwtSecret
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
           return res.sendStatus(403); // Acesso proibido
       }
@@ -47,9 +46,9 @@ const authenticateJWT = (req, res, next) => {
   });
 };
 
-app.use('/alunos', alunosRouter);
-app.use('/turmas', turmaRouter);
-app.use('/funcionarios', funcionarioRouter);
+app.use('/alunos', authenticateJWT, alunosRouter);
+app.use('/turmas', authenticateJWT, turmaRouter);
+app.use('/funcionarios', authenticateJWT, funcionarioRouter);
 app.use('/auth', authRouter);
 
 setupSwagger(app);

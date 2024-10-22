@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, senha } = req.body;
     try {
-        const { token } = jwt.sign(await login(email, senha));
+        const { token } = await login(email, senha);
         res.json({ token });
     } catch (error) {
         res.status(400).json({ error: error.message });
