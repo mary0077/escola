@@ -12,6 +12,12 @@ COPY . .
 
 RUN npx prisma migrate deploy
 
-EXPOSE 3000
+ENV DATABASE_URL="postgresql://escola_owner:n1LdSbBkUI7V@ep-divine-bonus-a537hq4o.us-east-2.aws.neon.tech/escola?sslmode=require"
+ENV PORT=3000
+ENV JWT_SECRET="umsegredoae"
+
+EXPOSE $PORT
 
 CMD ["npm", "start"]
+
+
