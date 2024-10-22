@@ -1,41 +1,67 @@
-body{
+body {
     margin: 0;
     padding: 0;
-
+    font-family: 'Arial', sans-serif; /* Fonte profissional padrão */
 }
 
-main{
+main {
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #dac6b5;
+    background-color: #dac6b5; /* Cor de fundo */
 }
-form{
+
+h1.logo {
+    font-size: 2.5em; /* Tamanho do texto */
+    color: black; /* Cor preta */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte legal */
+    margin-bottom: 20px; /* Espaço abaixo do título */
+}
+
+form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 350px;
-    background-color: #c1ad9d;
-    border: 1px solid #907e6f;
-    box-shadow: 0 0 5px 0 #a89585;
+    background-color: #c1ad9d; /* Cor do fundo do formulário */
+    border: 1px solid #907e6f; /* Cor da borda */
+    box-shadow: 0 0 5px 0 #a89585; /* Sombra do formulário */
     padding: 25px;
     border-radius: 25px;
 }
-form > div{
+
+form > div {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
-form input{
+
+form input {
     padding: 10px;
     border: 0;
     border-radius: 5px;
-    background-color: #dac6b5 !important;
+    background-color: #dac6b5 !important; /* Cor de fundo dos campos de entrada */
 }
-p.click_me, a.click_me{
+
+input[type="submit"] {
+    background-color: #4a90e2; /* Cor do botão */
+    color: rgb(10, 8, 8); /* Cor do texto do botão */
+    cursor: pointer; /* Mão ao passar o mouse */
+    transition: background-color 0.3s; /* Efeito de transição */
+    padding: 10px 15px; /* Aumentar área clicável */
+    border: none; /* Remover borda */
+    border-radius: 5px; /* Arredondar cantos */
+}
+
+input[type="submit"]:hover {
+    background-color: #357ab8; /* Cor do botão ao passar o mouse */
+}
+
+p.click_me, a.click_me {
     font-size: smaller;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte para textos */
 }
