@@ -1,4 +1,4 @@
-require('dotenv').config(); // Carrega variáveis de ambiente
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
@@ -8,7 +8,7 @@ const turmaRouter = require('./routes/turma');
 const authRouter = require('./routes/auth');
 const setupSwagger = require('./swagger');
 const path = require('path');
-const jwt = require('jsonwebtoken'); // Adicione esta linha para importar o jwt
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.set('view engine', 'ejs');

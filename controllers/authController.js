@@ -8,7 +8,7 @@ const JWT_EXPIRATION = '3h';
 
 async function cadastrar(nome, email, senha, cargo) {
     const hashedPassword = await bcrypt.hash(senha, 10);
-    return Funcionario.create({ nome, email, senha: hashedPassword, cargo });
+    return Funcionario.create({ nome, Email: email, senha: hashedPassword, cargo });
 }
 
 async function login(email, senha) {
@@ -22,5 +22,4 @@ async function login(email, senha) {
     return { token };
 }
 
-// Exporte as funções que deseja usar
 module.exports = { cadastrar, login };
