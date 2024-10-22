@@ -1,8 +1,9 @@
-// routes/authRoutes.js
 const express = require('express');
 const { cadastrar, login } = require('../controllers/authController');
 
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+
 
 router.get('/login', (req, res)=>{
     res.render('login');

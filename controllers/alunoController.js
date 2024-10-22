@@ -11,21 +11,37 @@ exports.getAll = async (req, res) => {
 };
 
 // Função para criar um novo aluno
+
+// Função para criar um novo aluno
 exports.create = async (req, res) => {
   try {
-    const { nome, email, idade, nota_primeiro_semestre, nota_segundo_semestre, nome_professor, numero_sala } = req.body;
-    const aluno = await Aluno.create({
-      nome,
-      email, // Incluindo o email
-      idade,
-      NotaPrimeiroModulo: nota_primeiro_semestre,
-      NotaSegundoModulo: nota_segundo_semestre,
-      Media: null, // ou calcular com base nas notas
-      // Adicione os campos adicionais aqui se necessário
-    });
-    res.status(201).json(aluno);
+      const { nome, email, idade, nota_primeiro_semestre, nota_segundo_semestre } = req.body;
+
+      // Verifique se o email está definido
+      if (!email) {
+          return res.status(400).json({ error: 'O campo e-mail é obrigatório' });
+      }
+
+      // Verificar se o e-mail já existe
+      const alunoExistente = await Aluno.findOne({ where: { email } });
+
+      if (alunoExistente) {
+          return res.status(400).json({ error: 'E-mail já cadastrado' });
+      }
+
+      // Criar o aluno caso o e-mail não exista
+      const aluno = await Aluno.create({
+          nome,
+          email,
+          idade,
+          NotaPrimeiroModulo: nota_primeiro_semestre,
+          NotaSegundoModulo: nota_segundo_semestre,
+          Media: null, // ou calcular com base nas notas
+      });
+
+      res.status(201).json(aluno);
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao criar aluno', details: error.message });
+      res.status(500).json({ error: 'Erro ao criar aluno', details: error.message });
   }
 };
 
@@ -50,6 +66,8 @@ exports.update = async (req, res) => {
     const aluno = await Aluno.findByPk(req.params.id);
     if (aluno) {
       const { nome, idade, nota_primeiro_semestre, nota_segundo_semestre, nome_professor, numero_sala } = req.body;
+
+      // Atualiza os dados do aluno
       await aluno.update({
         nome,
         idade,
@@ -57,6 +75,7 @@ exports.update = async (req, res) => {
         NotaSegundoModulo: nota_segundo_semestre,
         Media: null, // ou recalcular
       });
+
       res.json(aluno);
     } else {
       res.status(404).json({ error: 'Aluno não encontrado' });
