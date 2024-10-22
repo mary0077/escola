@@ -35,8 +35,6 @@
         function onInputVerify(){
             const buttonDocument = document.getElementById('submit')
             isDisable(buttonDocument, (verifyPasswd() == verifyEmail() && verifyPasswd() == true));
-            console.log(verifyEmail())
-            console.log(verifyPasswd())
         }
         function verifyEmail(){
             const Document = document.getElementById('email');
