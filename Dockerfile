@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /app
 
@@ -6,18 +6,12 @@ COPY package*.json ./
 
 RUN npm install
 
-RUN npx prisma generate
-
 COPY . .
 
-RUN npx prisma migrate deploy
-
-ENV DATABASE_URL="postgresql://escola_owner:n1LdSbBkUI7V@ep-divine-bonus-a537hq4o.us-east-2.aws.neon.tech/escola?sslmode=require"
+ENV DATABASE_URL=""
 ENV PORT=3000
-ENV JWT_SECRET="umsegredoae"
+ENV JWT_SECRET=""
 
-EXPOSE $PORT
+EXPOSE 3000
 
-CMD ["npm", "start"]
-
-
+CMD ["node", "app.js"]
