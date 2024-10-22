@@ -12,7 +12,7 @@ async function cadastrar(nome, email, senha, cargo) {
 }
 
 async function login(email, senha) {
-    const funcionario = await Funcionario.findOne({ where: { email } });
+    const funcionario = await Funcionario.findOne({ where: { Email: email } });
     if (!funcionario) throw new Error('Funcionário não encontrado');
 
     const isPasswordValid = await bcrypt.compare(senha, funcionario.senha);
