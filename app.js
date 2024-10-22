@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config(); // Carrega variáveis de ambiente
 const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
@@ -8,13 +8,27 @@ const turmaRouter = require('./routes/turma');
 const authRouter = require('./routes/auth');
 const setupSwagger = require('./swagger');
 const path = require('path');
+const jwt = require('jsonwebtoken'); // Adicione esta linha para importar o jwt
 
 const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware para processar requisições com JSON
+app.use(express.json()); // Isso permite processar JSON corretamente
+
+// Middleware para processar URL-encoded
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Middleware para verificar o corpo da requisição e depuração
+app.use((req, res, next) => {
+  console.log('Corpo da requisição:', req.body); // Adicionando o console.log para verificar o corpo
+  next();
+});
+
+// Carregar a chave secreta para JWT
+const jwtSecret = process.env.JWT_SECRET; // Adicione aqui
 
 const authenticateJWT = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
@@ -23,7 +37,8 @@ const authenticateJWT = (req, res, next) => {
       return res.sendStatus(403); // Acesso proibido
   }
 
-  jwt.verify(token, secretKey, (err, user) => {
+  // Use jwtSecret em vez de secretKey
+  jwt.verify(token, jwtSecret, (err, user) => { // Substitua secretKey por jwtSecret
       if (err) {
           return res.sendStatus(403); // Acesso proibido
       }
