@@ -11,8 +11,8 @@ async function cadastrar(nome, email, senha, cargo) {
     return Funcionario.create({ nome, Email: email, senha: hashedPassword, cargo });
 }
 
-async function login(email, senha) {
-    const funcionario = await Funcionario.findOne({ where: { email } });
+async function login(Email, senha) {
+    const funcionario = await Funcionario.findOne({ where: { Email } });
     if (!funcionario) throw new Error('Funcionário não encontrado');
 
     const isPasswordValid = await bcrypt.compare(senha, funcionario.senha);

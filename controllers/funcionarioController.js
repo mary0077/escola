@@ -1,4 +1,4 @@
-const Funcionario = require('../models/funcionario'); // Importando o modelo Funcionario
+const Funcionario = require('../models/funcionario');
 
 // Função para obter todos os funcionários
 exports.getAll = async (req, res) => {
@@ -16,7 +16,7 @@ exports.create = async (req, res) => {
 
   // Verificar se o e-mail já existe
   try {
-    const funcionarioExistente = await Funcionario.findOne({ where: { Email: email } });
+    const funcionarioExistente = await Funcionario.findOne({ where: { email } });
 
     if (funcionarioExistente) {
       return res.status(400).json({ error: 'E-mail já cadastrado' });
@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
     // Criar o funcionário caso o e-mail não exista
     const novoFuncionario = await Funcionario.create({
       nome,
-      Email: email, // Usando a propriedade correta
+      email, // Corrigindo a propriedade para minúsculas
       senha,
       cargo,
     });
@@ -56,9 +56,16 @@ exports.update = async (req, res) => {
     const funcionario = await Funcionario.findByPk(req.params.id);
     if (funcionario) {
       const { nome, email, senha, cargo } = req.body;
+
+      // Verificar se o e-mail já está sendo usado por outro funcionário
+      const emailExistente = await Funcionario.findOne({ where: { email } });
+      if (emailExistente && emailExistente.id !== funcionario.id) {
+        return res.status(400).json({ error: 'E-mail já está em uso por outro funcionário' });
+      }
+
       await funcionario.update({
         nome,
-        Email: email, // Atualizando o e-mail
+        email, // Corrigindo a propriedade para minúsculas
         senha,
         cargo,
       });
