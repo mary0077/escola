@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware para verificar o corpo da requisição e depuração
 app.use((req, res, next) => {
-  console.log('Corpo da requisição:', req.body); // Adicionando o console.log para verificar o corpo
+  //console.log('Corpo da requisição:', req.body); // Adicionando o console.log para verificar o corpo
   next();
 });
 

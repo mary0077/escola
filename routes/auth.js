@@ -29,7 +29,7 @@ const jwt = require('jsonwebtoken');
  * @swagger
  * components:
  *   securitySchemes:
- *     bearerAuth:
+ *     BearerAuth:
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT

@@ -167,5 +167,15 @@ router.put('/:id', turmaController.update);
  *         description: Turma não encontrada
  */
 router.delete('/:id', turmaController.delete);
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: Token JWT usado para autenticação.
+ */
 
 module.exports = router;

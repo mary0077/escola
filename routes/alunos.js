@@ -182,5 +182,15 @@ router.put('/:id', alunoController.update);
  *         description: Aluno não encontrado
  */
 router.delete('/:id', alunoController.delete);
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: Token JWT usado para autenticação.
+ */
 
 module.exports = router;
