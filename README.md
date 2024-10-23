@@ -60,8 +60,12 @@ Para iniciar a aplicação, execute:
 ```bash
 npm start
 ```
+### Imagem Docker
 
-- A API estará disponível em: `http://localhost:3000`.
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-fivedev/genapiescola-blue)](https://hub.docker.com/repository/docker/fivedev/genapiescola/general)
+
+Você pode encontrar a imagem da API na seguinte URL: [Docker Hub - API Escola](https://hub.docker.com/repository/docker/fivedev/genapiescola/general)
+- 
 - A documentação da API via Swagger estará em: `http://localhost:3000/api-docs`.
 
 ## Tabela de Endpoints
