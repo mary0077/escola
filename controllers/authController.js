@@ -1,4 +1,3 @@
-// services/authService.js
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Funcionario = require('../models/funcionario.js');

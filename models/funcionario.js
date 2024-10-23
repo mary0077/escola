@@ -19,7 +19,11 @@ const Funcionario = sequelize.define('Funcionario', {
   },
   Email: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true
+    }
   },
   senha: {
     type: DataTypes.STRING,
