@@ -1,72 +1,94 @@
 const Funcionario = require('../models/funcionario');
 
+// Função para obter todos os funcionários
 exports.getAll = async (req, res) => {
   try {
-    const funcionario = await Funcionario.findAll();
-    res.json(funcionario);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const funcionarios = await Funcionario.findAll();
+    res.json(funcionarios);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao obter funcionários' });
   }
 };
 
+// Função para criar um novo funcionário
 exports.create = async (req, res) => {
+  const { nome, email, senha, cargo } = req.body;
+
+  // Verificar se o e-mail já existe
   try {
-    const FuncionarioData = req.body;
-    if(!isValidEmail(FuncionarioData.Email)){
-      throw new Error("O e-mail fornecido não é válido.");
+    const funcionarioExistente = await Funcionario.findOne({ where: { email } });
+
+    if (funcionarioExistente) {
+      return res.status(400).json({ error: 'E-mail já cadastrado' });
     }
-    const Funcionario = await Funcionario.create(FuncionarioData);
-    res.status(201).json(Funcionario);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    // Criar o funcionário caso o e-mail não exista
+    const novoFuncionario = await Funcionario.create({
+      nome,
+      email, // Corrigindo a propriedade para minúsculas
+      senha,
+      cargo,
+    });
+
+    res.status(201).json(novoFuncionario);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao criar funcionário', details: error.message });
   }
 };
 
+// Função para obter um funcionário pelo ID
 exports.getById = async (req, res) => {
   try {
-    const Funcionario = await Funcionario.findByPk(req.params.id);
-    if (Funcionario) {
-      res.json(Funcionario);
+    const funcionario = await Funcionario.findByPk(req.params.id);
+    if (funcionario) {
+      res.json(funcionario);
     } else {
-      res.status(404).json({ error: 'Funcionario não encontrado' });
+      res.status(404).json({ error: 'Funcionário não encontrado' });
     }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao obter funcionário' });
   }
 };
 
+// Função para atualizar um funcionário
 exports.update = async (req, res) => {
   try {
-    const [updated] = await Funcionario.update(req.body, {
-      where: { id: req.params.id }
-    });
-    if (updated) {
-      const Fpdatedfuncionario = await Funcionario.findByPk(req.params.id);
-      res.json(Fpdatedfuncionario);
+    const funcionario = await Funcionario.findByPk(req.params.id);
+    if (funcionario) {
+      const { nome, email, senha, cargo } = req.body;
+
+      // Verificar se o e-mail já está sendo usado por outro funcionário
+      const emailExistente = await Funcionario.findOne({ where: { email } });
+      if (emailExistente && emailExistente.id !== funcionario.id) {
+        return res.status(400).json({ error: 'E-mail já está em uso por outro funcionário' });
+      }
+
+      await funcionario.update({
+        nome,
+        email, // Corrigindo a propriedade para minúsculas
+        senha,
+        cargo,
+      });
+      res.json(funcionario);
     } else {
-      res.status(404).json({ error: 'Funcionario não encontrado' });
+      res.status(404).json({ error: 'Funcionário não encontrado' });
     }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao atualizar funcionário' });
   }
 };
 
+// Função para deletar um funcionário
 exports.delete = async (req, res) => {
   try {
-    const deleted = await Funcionario.destroy({
-      where: { id: req.params.id }
-    });
-    if (deleted) {
-      res.status(204).json();
+    const funcionario = await Funcionario.findByPk(req.params.id);
+    if (funcionario) {
+      await funcionario.destroy();
+      res.status(204).send();
     } else {
-      res.status(404).json({ error: 'Funcionario não encontrado' });
+      res.status(404).json({ error: 'Funcionário não encontrado' });
     }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao deletar funcionário' });
   }
 };
-
-function isValidEmail(email) {
-  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; //valida se é coisa@coisa.com
-  return regex.test(email);
-}

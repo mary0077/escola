@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/desktop.css">
-    <title>Login</title>
+    <title>Registro</title>
 </head>
 <body>
     <main>
+        <h1 class="logo">DevFive</h1>
         <form action="/auth/register" method="POST">
             <div class="input_container">
                 <label for="">Nome:</label>
@@ -36,6 +37,7 @@
             const buttonDocument = document.getElementById('submit')
             isDisable(buttonDocument, (verifyPasswd() == verifyEmail() && verifyPasswd() == true));
         }
+        
         function verifyEmail(){
             const Document = document.getElementById('email');
             const email = Document.value;

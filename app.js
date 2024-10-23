@@ -15,7 +15,20 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware para processar requisições com JSON
+app.use(express.json()); // Isso permite processar JSON corretamente
+
+// Middleware para processar URL-encoded
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Middleware para verificar o corpo da requisição e depuração
+app.use((req, res, next) => {
+  console.log('Corpo da requisição:', req.body); // Adicionando o console.log para verificar o corpo
+  next();
+});
+
+// Carregar a chave secreta para JWT
+const jwtSecret = process.env.JWT_SECRET; // Adicione aqui
 
 const authenticateJWT = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];

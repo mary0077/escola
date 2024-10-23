@@ -1,4 +1,3 @@
-// services/authService.js
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Funcionario = require('../models/funcionario.js');
@@ -11,8 +10,8 @@ async function cadastrar(nome, email, senha, cargo) {
     return Funcionario.create({ nome, Email: email, senha: hashedPassword, cargo });
 }
 
-async function login(email, senha) {
-    const funcionario = await Funcionario.findOne({ where: { Email: email } });
+async function login(Email, senha) {
+    const funcionario = await Funcionario.findOne({ where: { Email } });
     if (!funcionario) throw new Error('Funcionário não encontrado');
 
     const isPasswordValid = await bcrypt.compare(senha, funcionario.senha);
@@ -21,5 +20,18 @@ async function login(email, senha) {
     const token = jwt.sign({ id: funcionario.id }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
     return { token };
 }
+
+async function cadastrar(nome, email, senha, cargo) {
+    // Verificar se o e-mail já está cadastrado
+    const funcionarioExistente = await Funcionario.findOne({ where: { Email: email } });
+    if (funcionarioExistente) {
+        throw new Error('E-mail já cadastrado');
+    }
+
+    // Criar o funcionário caso o e-mail não exista
+    const hashedPassword = await bcrypt.hash(senha, 10);
+    return Funcionario.create({ nome, Email: email, senha: hashedPassword, cargo });
+}
+
 
 module.exports = { cadastrar, login };
