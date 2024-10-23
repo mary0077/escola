@@ -1,7 +1,8 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif; /* Fonte profissional padrão */
+    font-family: 'Arial', sans-serif;
+    background-color: #040053;
 }
 
 main {
@@ -11,14 +12,34 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #dac6b5; /* Cor de fundo */
+    margin-top: -100px;
 }
 
-h1.logo {
-    font-size: 2.5em; /* Tamanho do texto */
-    color: black; /* Cor preta */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte legal */
-    margin-bottom: 20px; /* Espaço abaixo do título */
+.logo-container {
+    text-align: center;
+}
+
+.logo-img {
+    max-width: 40%;
+    height: auto;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.logo-text-container {
+    text-align: center;
+    
+}
+.logo-text-container p.logo {
+    font-size: 1.3em;
+    margin-top: -30px;
+}
+
+p.logo {
+    font-size: 1.3em;
+    color: #E6E6FA;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 20px;
 }
 
 form {
@@ -27,41 +48,64 @@ form {
     justify-content: center;
     align-items: center;
     width: 350px;
-    background-color: #c1ad9d; /* Cor do fundo do formulário */
-    border: 1px solid #907e6f; /* Cor da borda */
-    box-shadow: 0 0 5px 0 #a89585; /* Sombra do formulário */
+    background-color: #d4d4ce;
+    border: 1px solid #B0A392;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     padding: 25px;
-    border-radius: 25px;
+    border-radius: 15px;
 }
 
 form > div {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+form label {
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+label {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px; 
+    color: #333; 
+    margin-bottom: 5px;
 }
 
 form input {
     padding: 10px;
-    border: 0;
+    border: 1px solid #B0A392;
     border-radius: 5px;
-    background-color: #dac6b5 !important; /* Cor de fundo dos campos de entrada */
+    background-color: #FAF3E0;
+    color: #333;
 }
 
 input[type="submit"] {
-    background-color: #4a90e2; /* Cor do botão */
-    color: rgb(10, 8, 8); /* Cor do texto do botão */
-    cursor: pointer; /* Mão ao passar o mouse */
-    transition: background-color 0.3s; /* Efeito de transição */
-    padding: 10px 15px; /* Aumentar área clicável */
-    border: none; /* Remover borda */
-    border-radius: 5px; /* Arredondar cantos */
+    background-color: #FFD700;
+    color: #040053;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
 }
 
 input[type="submit"]:hover {
-    background-color: #357ab8; /* Cor do botão ao passar o mouse */
+    background-color: #E6B800;
 }
 
-p.click_me, a.click_me {
+p.click_me {
     font-size: smaller;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte para textos */
+    color: #E6E6FA;
+}
+
+a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #357ab8;
 }

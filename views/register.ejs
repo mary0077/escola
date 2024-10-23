@@ -8,7 +8,12 @@
 </head>
 <body>
     <main>
-        <h1 class="logo">DevFive</h1>
+        <div class="logo-container">
+            <img src="/img/logodevfive.png" alt="Logo" class="logo-img">
+        </div>
+        <div class="logo-text-container">
+            <p class="logo">Registre-se aqui!</p>
+        </div>
         <form action="/auth/register" method="POST">
             <div class="input_container">
                 <label for="">Nome:</label>
@@ -19,7 +24,7 @@
                 <input type="text" name="cargo" id="cargo">
             </div>
             <div class="input_container">
-                <label for="">E-mail:</label>
+                <label for="">Email:</label>
                 <input type="text" name="email" id="email" oninput="onInputVerify()">
             </div>
             <div class="input_container">
