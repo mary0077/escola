@@ -7,11 +7,11 @@ const options = {
     info: {
       title: 'API de Alunos',
       version: '1.0.0',
-      description: 'API para gerenciar alunos de uma escola'
+      description: 'API para gerenciar alunos de uma esco la'
     },
     servers: [
       {
-        url: 'http://localhost:' + process.env.PORT
+        url: `/`
       }
     ],
     components: {
@@ -30,7 +30,18 @@ const options = {
 const swaggerSpec = swaggerJsDoc(options);
 
 const setupSwagger = (app) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+      requestInterceptor: (req) => {  
+        const token = sessionStorage.getItem('authToken'); // Pega o token do localStorage
+        console.log(token);
+        if (token) {
+          req.headers['Authorization'] = `Bearer ${token}`; // Adiciona o token ao cabeçalho Authorization
+        }
+        return req;
+      }
+    }
+  }));
 };
 
 module.exports = setupSwagger;
