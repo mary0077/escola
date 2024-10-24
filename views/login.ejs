@@ -15,14 +15,14 @@
         <div class="logo-text-container">
             <p class="logo">Faça seu login aqui!</p>
         </div>
-        <form action="/auth/login" method="POST">
+        <form action="/auth/login" method="POST" id="myForm">
             <div class="input_container">
                 <label for="">Email:</label>
-                <input type="text" name="email">
+                <input type="text" name="email" id="email">
             </div>
             <div class="input_container">
                 <label for="">Senha:</label>
-                <input type="password" name="senha">
+                <input type="password" name="senha" id="senha">
             </div>
             <div class="input_container click_me">
                 <p>Novo por aqui ? <br>Clique <a href="/auth/register">Aqui</a> para se registrar!</p>
@@ -30,5 +30,38 @@
             <input type="submit" value="Logar">
         </form>
     </main>
+    <script>
+        const form = document.getElementById('myForm');
+
+        form.addEventListener('submit', function(event) {
+          event.preventDefault(); // Evita o recarregamento da página
+
+          // Cria um objeto FormData com os dados do formulário
+          const formData = new FormData(form);
+
+          const bodyData = {
+            "email": document.getElementById("email").value,
+            "senha": document.getElementById("senha").value
+          }
+
+          // Faz a requisição Fetch para o endpoint
+          fetch('http://localhost:3000/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bodyData)
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data)
+            sessionStorage.setItem('authToken', data.token);
+            window.location.href = '/api-docs'
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        });
+    </script>
 </body>
 </html>

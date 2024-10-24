@@ -30,7 +30,18 @@ const options = {
 const swaggerSpec = swaggerJsDoc(options);
 
 const setupSwagger = (app) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+      requestInterceptor: (req) => {  
+        const token = sessionStorage.getItem('authToken'); // Pega o token do localStorage
+        console.log(token);
+        if (token) {
+          req.headers['Authorization'] = `Bearer ${token}`; // Adiciona o token ao cabeçalho Authorization
+        }
+        return req;
+      }
+    }
+  }));
 };
 
 module.exports = setupSwagger;
