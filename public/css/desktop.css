@@ -49,8 +49,8 @@ form {
     align-items: center;
     width: 350px;
     background-color: #d4d4ce;
-    border: 1px solid #B0A392;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 0px 0 #FFD700;
     padding: 25px;
     border-radius: 15px;
 }
