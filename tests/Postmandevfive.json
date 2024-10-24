@@ -1,0 +1,309 @@
+{
+    "info": {
+      "name": "API Testes Unificados",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Alunos",
+        "item": [
+          {
+            "name": "Obter todos os alunos",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:3000/alunos",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["alunos"]
+              }
+            }
+          },
+          {
+            "name": "Criar um novo aluno",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao.silva@example.com\",\n  \"idade\": 20,\n  \"nota_primeiro_semestre\": 8.5,\n  \"nota_segundo_semestre\": 9.0\n}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/alunos",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["alunos"]
+              }
+            }
+          },
+          {
+            "name": "Obter aluno pelo ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:3000/alunos/1",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["alunos", "1"]
+              }
+            }
+          },
+          {
+            "name": "Atualizar um aluno",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"nome\": \"João Silva Atualizado\",\n  \"idade\": 21,\n  \"nota_primeiro_semestre\": 8.0,\n  \"nota_segundo_semestre\": 9.2\n}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/alunos/1",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["alunos", "1"]
+              }
+            }
+          },
+          {
+            "name": "Deletar um aluno",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:3000/alunos/1",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["alunos", "1"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Funcionários",
+        "item": [
+          {
+            "name": "Obter todos os funcionários",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:3000/funcionarios",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["funcionarios"]
+              }
+            }
+          },
+          {
+            "name": "Criar um novo funcionário",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"nome\": \"Maria Oliveira\",\n  \"email\": \"maria.oliveira@example.com\",\n  \"senha\": \"senhaSegura123\",\n  \"cargo\": \"Gerente\"\n}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/funcionarios",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["funcionarios"]
+              }
+            }
+          },
+          {
+            "name": "Obter funcionário pelo ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:3000/funcionarios/1",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["funcionarios", "1"]
+              }
+            }
+          },
+          {
+            "name": "Atualizar um funcionário",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"nome\": \"Maria Oliveira Atualizada\",\n  \"email\": \"maria.oliveira@empresa.com\",\n  \"senha\": \"novaSenhaSegura123\",\n  \"cargo\": \"Diretora\"\n}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/funcionarios/1",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["funcionarios", "1"]
+              }
+            }
+          },
+          {
+            "name": "Deletar um funcionário",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:3000/funcionarios/1",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["funcionarios", "1"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Turmas",
+        "item": [
+          {
+            "name": "Obter todas as turmas",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:3000/turmas",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["turmas"]
+              }
+            }
+          },
+          {
+            "name": "Criar uma nova turma",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <token>",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"nome\": \"Turma A\",\n  \"descricao\": \"Turma de Ciências\",\n  \"ano\": 2024\n}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/turmas",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3000",
+                "path": ["turmas"]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
