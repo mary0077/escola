@@ -29,13 +29,13 @@
                     <button class="add-refresh" onclick="refreshAlunos()">Atualizar</button>
                 </div>
             </div>
-            <div class="students-list">
+            <div class="students-list" id="students-list">
                 <% data.students.forEach((student)=>{%>
-                    <div class="student-card" onclick="window.location.href='#'">
+                    <div class="student-card">
                         <p><strong>Nome:</strong> <%= student.nome %></p>
                         <p><strong>Idade:</strong> <%= student.idade %></p>
                         <p><strong>Email:</strong> <%= student.email %></p>
-                        <button class="delete-button">Excluir</button>
+                        <button class="delete-button" onclick="excluirAluno(<%= student.id %>)">Excluir</button>
                     </div>
                 <% })%>
             </div>
@@ -50,13 +50,13 @@
                     <button class="add-refresh" onclick="refreshSalas()">Atualizar</button>
                 </div>
             </div>
-            <div class="rooms-list">
+            <div class="rooms-list" id="room-list">
                 <% data.class.forEach((student)=>{%>
-                    <div class="room-card" onclick="window.location.href='#'">
+                    <div class="room-card">
                         <p><strong>Curso:</strong> <%= student.nome %></p>
                         <p><strong>Instrutor:</strong> <%= student.instrutor %></p>
                         <p><strong>Alunos:</strong> <%= student.Alunos %></p>
-                        <button class="delete-button">Excluir</button>
+                        <button class="delete-button" onclick="excluirSala(<%= student.id %>)">Excluir</button>
                     </div>
                 <% })%>
             </div>
@@ -72,16 +72,16 @@
                 <input type="text" placeholder="Nome" name="nome" required>
                 <input type="email" placeholder="Email" name="email" required>
                 <input type="number" placeholder="Idade" name="idade" required>
-                <input type="number" placeholder="Nota 1º Semestre" name="nota1" required>
-                <input type="number" placeholder="Nota 2º Semestre" name="nota2" required>
+                <input type="number" placeholder="Nota 1º Semestre" name="nota_primeiro_semestre" required>
+                <input type="number" placeholder="Nota 2º Semestre" name="nota_segundo_semestre" required>
                 <button type="button" onclick="adicionarAluno()">Adicionar</button>
             </form>
 
             <form id="form-sala" class="hidden">
                 <h2>Adicionar Sala</h2>
-                <input type="text" placeholder="Nome do Curso" name="curso" required>
+                <input type="text" placeholder="Nome do Curso" name="nome" required>
                 <input type="text" placeholder="Instrutor" name="instrutor" required>
-                <input type="number" placeholder="Número de Alunos" name="alunos" required>
+                <input type="number" placeholder="Número de Alunos" name="Alunos" required>
                 <button type="button" onclick="adicionarSala()">Adicionar</button>
             </form>
         </div>
@@ -90,6 +90,17 @@
     <script>
         function getAuthToken() {
             return sessionStorage.getItem('authToken');
+        }
+        function coletarDadosFormulario(formId) {
+            const form = document.getElementById(formId);
+            const formData = new FormData(form);
+            const dados = {};
+
+            formData.forEach((value, key) => {
+                dados[key] = value; // Adiciona os dados ao objeto
+            });
+        
+            return JSON.stringify(dados); // Retorna o objeto como uma string JSON
         }
 
         function showForm(type) {
@@ -112,26 +123,176 @@
             document.getElementById('main-content').style.filter = 'none';
         }
 
-        function adicionarAluno() {
+        document.getElementById('form-aluno').addEventListener('submit', (event)=>{
+            event.preventDefault();
+
+            adicionarAluno();
+        })
+
+        async function adicionarAluno() {
             const authToken = getAuthToken();
+            const FormData = coletarDadosFormulario('form-aluno');
+
+            console.log(FormData);
+
+            try{
+                const res = await fetch('/alunos', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Authorization": "Bearer " + authToken
+                    },
+                    body: FormData
+                });
+
+                if(res.ok){
+                    console.log(await res.json())
+                }
+            }catch(err){
+                console.log(err);
+            }
             console.log("Aluno adicionado - Token:", authToken);
             closeForm();
         }
 
         function adicionarSala() {
             const authToken = getAuthToken();
-            console.log("Sala adicionada - Token:", authToken);
+            const FormData = coletarDadosFormulario('form-sala');
+
+            try{
+                fetch('/turmas', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Authorization": "Bearer " + authToken
+                    },
+                    body: FormData
+                });
+            }catch(err){
+                console.log(err);
+            }
             closeForm();
         }
 
-        function refreshAlunos() {
+        async function refreshAlunos() {
             const authToken = getAuthToken();
-            console.log("Atualizar lista de alunos - Token:", authToken);
+            const studentsDOM = document.getElementById('students-list');
+
+            try{
+                studentsDOM.style.opacity = "0.5";
+                const res = await fetch('/alunos', {
+                    method: "GET",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Authorization": "Bearer " + authToken
+                    }
+                });
+
+                if(res.ok){
+                    studentsDOM.style.opacity = "1";
+                    const resJson = await res.json()
+                    console.log(resJson);
+
+
+                    studentsDOM.innerHTML = "";
+
+                    for(let stu of resJson){
+                        studentsDOM.innerHTML += `
+                        <div class="student-card" onclick="window.location.href='#'">
+                            <p><strong>Nome:</strong> ${stu.nome}</p>
+                            <p><strong>Idade:</strong> ${stu.idade}</p>
+                            <p><strong>Email:</strong> ${stu.email}</p>
+                            <button class="delete-button" onclick="excluirAluno(${stu.id})">Excluir</button>
+                        </div>
+                        `
+                    }
+                }
+            }catch(err){
+                studentsDOM.style.backgroundColor = "red";
+                console.log(err);
+            }
+            console.log("Aluno adicionado - Token:", authToken);
         }
 
-        function refreshSalas() {
+        async function refreshSalas() {
             const authToken = getAuthToken();
-            console.log("Atualizar lista de salas - Token:", authToken);
+            const roomDOM = document.getElementById('room-list');
+
+            try{
+                roomDOM.style.opacity = "0.5";
+                const res = await fetch('/turmas', {
+                    method: "GET",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Authorization": "Bearer " + authToken
+                    }
+                });
+
+                if(res.ok){
+                    roomDOM.style.opacity = "1";
+                    const resJson = await res.json()
+                    console.log(resJson);
+
+
+                    roomDOM.innerHTML = "";
+
+                    for(let stu of resJson){
+                        roomDOM.innerHTML += `
+                        <div class="room-card" onclick="window.location.href='#'">
+                            <p><strong>Curso:</strong> ${stu.nome}</p>
+                            <p><strong>Instrutor:</strong> ${stu.instrutor}</p>
+                            <p><strong>Alunos:</strong> ${stu.Alunos}</p>
+                            <button class="delete-button" onclick="excluirSala(${stu.id})">Excluir</button>
+                        </div>
+                        `
+                    }
+                }
+            }catch(err){
+                roomDOM.style.backgroundColor = "red";
+                console.log(err);
+            }
+        }
+        async function excluirSala(id){
+            const authToken = getAuthToken();
+            const roomDOM = document.getElementById('room-list');
+
+            try{
+                const res = await fetch('/turmas/' + id, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Authorization": "Bearer " + authToken
+                    }
+                });
+
+                if(res.ok){
+                    const resJson = await res.json()
+                    console.log(resJson);
+                }
+            }catch(err){
+                console.log(err);
+            }
+        }
+        async function excluirAluno(id) {
+            const authToken = getAuthToken();
+            const roomDOM = document.getElementById('room-list');
+
+            try{
+                const res = await fetch('/alunos/' + id, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Authorization": "Bearer " + authToken
+                    }
+                });
+
+                if(res.ok){
+                    const resJson = await res.json()
+                    console.log(resJson);
+                }
+            }catch(err){
+                console.log(err);
+            }
         }
     </script>
 </body>
