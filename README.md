@@ -61,7 +61,7 @@ node app.js
 ```
 ## Documentação
 
-Para um passo a passo simplificado e direto sobre a configuração e utilização da API, consulte a [documentação da API de Gestão Escolar](https://github.com/mary0077/escola/raw/DevFiveDocumentação.pdf).
+Para um passo a passo simplificado e direto sobre a configuração e utilização da API, consulte a [documentação da API de Gestão Escolar](https://drive.google.com/file/d/1YkGIwd2oja79-SbcGRBJ8-iZ0BxWyQqk/view?usp=sharing).
 
 
 ### Imagem Docker
