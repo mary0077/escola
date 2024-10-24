@@ -4,6 +4,7 @@ const Aluno = require('../models/aluno');
 exports.getAll = async (req, res) => {
   try {
     const alunos = await Aluno.findAll();
+    //console.log(alunos);
     res.json(alunos);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao obter alunos' });

@@ -13,16 +13,16 @@ const Turma = sequelize.define('Turma', {
     allowNull: false
   },
   instrutor: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  Alunos: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: Aluno,
       key: 'id'
     }
-  },
-  Alunos: {
-    type: DataTypes.INTEGER,
-    allowNull: false
   }
 });
 

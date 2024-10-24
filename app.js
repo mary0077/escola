@@ -6,6 +6,7 @@ const alunosRouter = require('./routes/alunos');
 const funcionarioRouter = require('./routes/funcionario');
 const turmaRouter = require('./routes/turma');
 const authRouter = require('./routes/auth');
+const panelRouter = require('./routes/panel')
 const setupSwagger = require('./swagger');
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -46,9 +47,10 @@ const authenticateJWT = (req, res, next) => {
   });
 };
 
-app.use('/alunos', authenticateJWT, alunosRouter);
-app.use('/turmas', authenticateJWT, turmaRouter);
+app.use('/alunos', alunosRouter);
+app.use('/turmas', turmaRouter);
 app.use('/funcionarios', authenticateJWT, funcionarioRouter);
+app.use('/panel', panelRouter);
 app.use('/auth', authRouter);
 
 setupSwagger(app);
