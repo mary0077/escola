@@ -48,7 +48,7 @@ const funcionarioController = require('../controllers/funcionarioController');
  *     summary: Retorna a lista de todos os funcionários
  *     tags: [Funcionarios]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de funcionários
@@ -68,7 +68,7 @@ router.get('/', funcionarioController.getAll);
  *     summary: Cria um novo funcionário
  *     tags: [Funcionarios]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -92,7 +92,7 @@ router.post('/', funcionarioController.create);
  *     summary: Retorna um funcionário pelo ID
  *     tags: [Funcionarios]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -119,7 +119,7 @@ router.get('/:id', funcionarioController.getById);
  *     summary: Atualiza um funcionário pelo ID
  *     tags: [Funcionarios]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -152,7 +152,7 @@ router.put('/:id', funcionarioController.update);
  *     summary: Remove um funcionário pelo ID
  *     tags: [Funcionarios]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -172,7 +172,7 @@ router.delete('/:id', funcionarioController.delete);
  * @swagger
  * components:
  *   securitySchemes:
- *     bearerAuth:
+ *     BearerAuth:
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT

@@ -6,6 +6,7 @@ const alunosRouter = require('./routes/alunos');
 const funcionarioRouter = require('./routes/funcionario');
 const turmaRouter = require('./routes/turma');
 const authRouter = require('./routes/auth');
+const panelRouter = require('./routes/panel')
 const setupSwagger = require('./swagger');
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -49,6 +50,7 @@ const authenticateJWT = (req, res, next) => {
 app.use('/alunos', authenticateJWT, alunosRouter);
 app.use('/turmas', authenticateJWT, turmaRouter);
 app.use('/funcionarios', authenticateJWT, funcionarioRouter);
+app.use('/panel', panelRouter);
 app.use('/auth', authRouter);
 
 setupSwagger(app);
@@ -57,7 +59,7 @@ sequelize.sync()
   .then(() => {
     console.log('Banco de dados conectado');
     const port = process.env.PORT || 3000;
-    app.listen(port, () => {
+    app.listen(port, '0.0.0.0', () => {
       console.log(`Servidor rodando na porta ${port}`);
     });
   })
