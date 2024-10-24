@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/desktop.css">
     <title>Login</title>
 </head>
 <body>
     <main>
-        <h1 class="logo">DevFive</h1>
+        <div class="logo-container">
+            <img src="/img/logodevfive.png" alt="Logo" class="logo-img">
+        </div>
+        <div class="logo-text-container">
+            <p class="logo">Faça seu login aqui!</p>
+        </div>
         <form action="/auth/login" method="POST">
             <div class="input_container">
                 <label for="">Email:</label>
@@ -19,7 +25,7 @@
                 <input type="password" name="senha">
             </div>
             <div class="input_container click_me">
-                <p>Novo por aqui ? Clique <a href="/auth/register">Aqui</a> para se registrar!.</p>
+                <p>Novo por aqui ? <br>Clique <a href="/auth/register">Aqui</a> para se registrar!</p>
             </div>
             <input type="submit" value="Logar">
         </form>
