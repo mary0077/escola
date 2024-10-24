@@ -7,11 +7,11 @@ const options = {
     info: {
       title: 'API de Alunos',
       version: '1.0.0',
-      description: 'API para gerenciar alunos de uma escola'
+      description: 'API para gerenciar alunos de uma esco la'
     },
     servers: [
       {
-        url: 'http://localhost:' + process.env.PORT
+        url: `/`
       }
     ],
     components: {
