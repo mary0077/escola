@@ -36,23 +36,20 @@
     </main>
     <script>
         function isDisable(document, value){
-            document.disabled = value;
+            document.disabled = !value;
         }
-        //function onInputVerify(){
-        //    const buttonDocument = document.getElementById('submit')
-        //    isDisable(buttonDocument, verifyEmail());
-        //    isDisable(buttonDocument, verifyPasswd());
-        //}
-
-        //VERIFICAR ERRO
-
+        function onInputVerify(){
+            const buttonDocument = document.getElementById('submit')
+            isDisable(buttonDocument, (verifyPasswd() == verifyEmail() && verifyPasswd() == true));
+        }
+        
         function verifyEmail(){
             const Document = document.getElementById('email');
             const email = Document.value;
 
             const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if(!email.test(regex)){
+            if(!regex.test(email)){
                 return false;
             }
 
