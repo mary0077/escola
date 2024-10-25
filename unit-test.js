@@ -1,5 +1,6 @@
 let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI5ODQ3MDA2LCJleHAiOjE3Mjk4NTc4MDZ9.LGmaWNb3oWxY3HrnlgJoC-BQTldop2mbmSfswPMReyQ'; // Adicione o token válido se necessário
 let alunoId, turmaId; // IDs a serem atribuídos após criação
+const host = 'http://localhost:3000'
 const alunoTemplate = {
     nome: "Willian Massao",
     email: "teste"+ Math.floor(Math.random() * 999) + "@gmail.com",
@@ -30,13 +31,13 @@ async function fetchEndPoint(endpoint, method, body = null) {
     if (body) options.body = JSON.stringify(body);
 
     try {
-        const response = await fetch('http://localhost:3000' + endpoint, options);
+        const response = await fetch(host + endpoint, options);
         const data = await response.json();
         if (!response.ok) {
             console.error(`Erro em ${method} ${endpoint}:`, data);
             return null;
         }
-        console.log(`Sucesso em ${method} ${endpoint}:`, data);
+        console.log(`Sucesso em ${method} ${endpoint}:`);
         return data;
     } catch (error) {
         console.error(`Erro na requisição ${method} ${endpoint}:`, error);
@@ -46,6 +47,17 @@ async function fetchEndPoint(endpoint, method, body = null) {
 
 // Função principal de testes em sequência
 async function testEndpoints() {
+    // 9. Criar funcionário (POST /funcionarios)
+    const funcionario = await fetchEndPoint('/auth/register', 'POST', funcionarioTemplate);
+
+    // 10. Login do funcionário (POST /login)
+    const loginResponse = await fetchEndPoint('/auth/login', 'POST', {
+        email: funcionarioTemplate.email,
+        senha: funcionarioTemplate.senha
+    });
+    
+    token = loginResponse.token
+        
     // 1. Criar um aluno (POST /alunos)
     const aluno = await fetchEndPoint('/alunos', 'POST', alunoTemplate);
     if (aluno) alunoId = aluno.id;
@@ -60,7 +72,7 @@ async function testEndpoints() {
     if (alunoId) await fetchEndPoint(`/alunos/${alunoId}`, 'PUT', { nome: "Willian M Atualizado" });
 
     // 5. Criar turma (POST /turmas) com ID do aluno dentro do campo "alunos"
-    const turma = await fetchEndPoint('/turmas', 'POST', { 
+    let turma = await fetchEndPoint('/turmas', 'POST', { 
         ...turmaTemplate, 
         Alunos: [alunoId] // Inclui o ID do aluno no campo "alunos"
     });
@@ -74,17 +86,6 @@ async function testEndpoints() {
 
     // 8. Atualizar turma (PUT /turmas/{id})
     if (turmaId) await fetchEndPoint(`/turmas/${turmaId}`, 'PUT', { nome: "Turma Atualizada" });
-
-    // 9. Criar funcionário (POST /funcionarios)
-    const funcionario = await fetchEndPoint('/auth/register', 'POST', funcionarioTemplate);
-
-    // 10. Login do funcionário (POST /login)
-    const loginResponse = await fetchEndPoint('/auth/login', 'POST', {
-        email: funcionarioTemplate.email,
-        senha: funcionarioTemplate.senha
-    });
-
-    token = loginResponse.token
 
     // 11. Listar funcionários (GET /funcionarios)
     await fetchEndPoint('/funcionarios', 'GET');
@@ -123,8 +124,8 @@ async function testEndpoints() {
         ...turmaTemplate, 
         Alunos: [alunoRegra.id]
     });
-    if (alunoRegra.id) await fetchEndPoint(`/alunos/${alunoRegra.id}`, 'DELETE');
     if (turma.id) await fetchEndPoint(`/turmas/${turma.id}`, 'DELETE');
+    if (alunoRegra.id) await fetchEndPoint(`/alunos/${alunoRegra.id}`, 'DELETE');
 }
 
 // Executa o teste
