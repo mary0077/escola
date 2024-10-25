@@ -84,9 +84,9 @@ Você pode encontrar a imagem da API na seguinte URL: [Docker Hub - API Escola](
 
 | Método  | Endpoint         | Descrição                                 | Autenticação   |
 |---------|------------------|-------------------------------------------|----------------|
-| `POST`  | `/funcionarios`   | Cria um novo funcionário                  | Sim (JWT)      |
-| `GET`   | `/funcionarios`   | Retorna todos os funcionários             | Sim (JWT)      |
-| `POST`  | `/login`          | Autentica um funcionário e retorna o JWT  | Não            |
+| `POST`  | `/auth/register` | Cria um novo funcionário                  | Não            |
+| `GET`   | `/funcionarios`  | Retorna todos os funcionários             | Sim (JWT)      |
+| `POST`  | `/auth/login`    | Autentica um funcionário e retorna o JWT  | Não            |
 
 ### Endpoints de Turmas
 

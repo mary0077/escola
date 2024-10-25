@@ -1,3 +1,4 @@
+const { INTEGER } = require('sequelize');
 const Aluno = require('../models/aluno');
 
 // Função para obter todos os alunos
@@ -37,7 +38,7 @@ exports.create = async (req, res) => {
           idade,
           NotaPrimeiroModulo: nota_primeiro_semestre,
           NotaSegundoModulo: nota_segundo_semestre,
-          Media: null, // ou calcular com base nas notas
+          Media: ((parseFloat(nota_primeiro_semestre) + parseFloat(nota_segundo_semestre))/2), // ou calcular com base nas notas
       });
 
       res.status(201).json(aluno);
@@ -92,11 +93,11 @@ exports.delete = async (req, res) => {
     const aluno = await Aluno.findByPk(req.params.id);
     if (aluno) {
       await aluno.destroy();
-      res.status(204).send();
+      res.json({message: "Deletado com sucesso!."});
     } else {
       res.status(404).json({ error: 'Aluno não encontrado' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao deletar aluno' });
+    res.status(500).json({ error: 'Erro ao deletar aluno: ' + error });
   }
 };

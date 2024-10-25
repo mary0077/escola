@@ -11,6 +11,15 @@ exports.getAll = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
+    const { Alunos } = req.body;
+
+    // Verifica se o aluno já está em outra turma
+    const turmaExistente = await Turma.findOne({ where: { Alunos } });
+    if (turmaExistente) {
+      return res.status(400).json({ error: "Aluno já está associado a outra turma." });
+    }
+
+    // Cria a nova turma
     const turma = await Turma.create(req.body);
     res.status(201).json(turma);
   } catch (err) {
@@ -53,7 +62,7 @@ exports.delete = async (req, res) => {
       where: { id: req.params.id }
     });
     if (deleted) {
-      res.status(204).json();
+      res.json({message: "Deletado com sucesso!."});
     } else {
       res.status(404).json({ error: 'Turma não encontrada' });
     }
