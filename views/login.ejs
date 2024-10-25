@@ -45,7 +45,7 @@
           }
 
           // Faz a requisição Fetch para o endpoint
-          fetch('http://localhost:3000/auth/login', {
+          fetch(window.location.href, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
