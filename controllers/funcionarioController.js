@@ -1,4 +1,5 @@
 const Funcionario = require('../models/funcionario');
+const bcrypt = require('bcryptjs');
 
 // Função para obter todos os funcionários
 exports.getAll = async (req, res) => {
@@ -13,10 +14,11 @@ exports.getAll = async (req, res) => {
 // Função para criar um novo funcionário
 exports.create = async (req, res) => {
   const { nome, email, senha, cargo } = req.body;
+  const hashedPassword = await bcrypt.hash(senha, 10);
 
   // Verificar se o e-mail já existe
   try {
-    const funcionarioExistente = await Funcionario.findOne({ where: { email } });
+    const funcionarioExistente = await Funcionario.findOne({ where: { Email: email } });
 
     if (funcionarioExistente) {
       return res.status(400).json({ error: 'E-mail já cadastrado' });
@@ -25,8 +27,8 @@ exports.create = async (req, res) => {
     // Criar o funcionário caso o e-mail não exista
     const novoFuncionario = await Funcionario.create({
       nome,
-      email, // Corrigindo a propriedade para minúsculas
-      senha,
+      Email: email, // Corrigindo a propriedade para minúsculas
+      senha: hashedPassword,
       cargo,
     });
 
@@ -58,15 +60,16 @@ exports.update = async (req, res) => {
       const { nome, email, senha, cargo } = req.body;
 
       // Verificar se o e-mail já está sendo usado por outro funcionário
-      const emailExistente = await Funcionario.findOne({ where: { email } });
+      const emailExistente = await Funcionario.findOne({ where: { Email: email } });
       if (emailExistente && emailExistente.id !== funcionario.id) {
         return res.status(400).json({ error: 'E-mail já está em uso por outro funcionário' });
       }
+      const hashedPassword = await bcrypt.hash(senha, 10);
 
       await funcionario.update({
         nome,
-        email, // Corrigindo a propriedade para minúsculas
-        senha,
+        Email: email, // Corrigindo a propriedade para minúsculas
+        senha: hashedPassword,
         cargo,
       });
       res.json(funcionario);
@@ -84,7 +87,7 @@ exports.delete = async (req, res) => {
     const funcionario = await Funcionario.findByPk(req.params.id);
     if (funcionario) {
       await funcionario.destroy();
-      res.status(204).send();
+      res.status(201).json({message: "Deletado com sucesso!."});;
     } else {
       res.status(404).json({ error: 'Funcionário não encontrado' });
     }

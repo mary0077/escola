@@ -30,8 +30,8 @@ const turmaController = require('../controllers/turmaController');
  *       example:
  *         id: 1
  *         nome: "Turma de Matemática"
- *         instrutor: 2
- *         alunos: [1, 2, 3]
+ *         instrutor: "Thiago"
+ *         Alunos: 1
  */
 
 /**

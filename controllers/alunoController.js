@@ -6,7 +6,7 @@ exports.getAll = async (req, res) => {
   try {
     const alunos = await Aluno.findAll();
     //console.log(alunos);
-    res.json(alunos);
+    res.status(201).json(alunos);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao obter alunos' });
   }
@@ -41,7 +41,7 @@ exports.create = async (req, res) => {
           Media: ((parseFloat(nota_primeiro_semestre) + parseFloat(nota_segundo_semestre))/2), // ou calcular com base nas notas
       });
 
-      res.status(201).json(aluno);
+      res.status(201).json( aluno );
   } catch (error) {
       res.status(500).json({ error: 'Erro ao criar aluno', details: error.message });
   }
@@ -53,7 +53,7 @@ exports.getById = async (req, res) => {
   try {
     const aluno = await Aluno.findByPk(req.params.id);
     if (aluno) {
-      res.json(aluno);
+      res.status(201).json(aluno);
     } else {
       res.status(404).json({ error: 'Aluno não encontrado' });
     }
@@ -78,7 +78,7 @@ exports.update = async (req, res) => {
         Media: null, // ou recalcular
       });
 
-      res.json(aluno);
+      res.status(201).json( aluno );
     } else {
       res.status(404).json({ error: 'Aluno não encontrado' });
     }
@@ -93,7 +93,7 @@ exports.delete = async (req, res) => {
     const aluno = await Aluno.findByPk(req.params.id);
     if (aluno) {
       await aluno.destroy();
-      res.json({message: "Deletado com sucesso!."});
+      res.status(201).json({message: "Deletado com sucesso!."});
     } else {
       res.status(404).json({ error: 'Aluno não encontrado' });
     }

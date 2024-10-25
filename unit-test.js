@@ -1,6 +1,6 @@
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI5ODQ3MDA2LCJleHAiOjE3Mjk4NTc4MDZ9.LGmaWNb3oWxY3HrnlgJoC-BQTldop2mbmSfswPMReyQ'; // Adicione o token válido se necessário
+let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI5ODQ3MDA2LCJleHAiOjE3Mjk4NTc4MDZ9.LGmaWNb3oWxY3HrnlgJoC-BQTldop2mbmSfswPMReyQ';
 let alunoId, turmaId; // IDs a serem atribuídos após criação
-const host = 'https://genapiescola.onrender.com'
+const host = 'http://localhost:3000'
 const alunoTemplate = {
     nome: "Willian Massao",
     email: "teste"+ Math.floor(Math.random() * 999) + "@gmail.com",
@@ -47,9 +47,10 @@ async function fetchEndPoint(endpoint, method, body = null) {
 
 // Função principal de testes em sequência
 async function testEndpoints() {
+    console.log("Testando rotas...\n");
     // 9. Criar funcionário (POST /funcionarios)
-    const funcionario = await fetchEndPoint('/auth/register', 'POST', funcionarioTemplate);
-
+    const funcionario = await fetchEndPoint('/funcionarios', 'POST', funcionarioTemplate);
+    
     // 10. Login do funcionário (POST /login)
     const loginResponse = await fetchEndPoint('/auth/login', 'POST', {
         email: funcionarioTemplate.email,
@@ -57,6 +58,8 @@ async function testEndpoints() {
     });
     
     token = loginResponse.token
+    // Lista funcionarios
+    await fetchEndPoint('/funcionarios', 'GET');
         
     // 1. Criar um aluno (POST /alunos)
     const aluno = await fetchEndPoint('/alunos', 'POST', alunoTemplate);
@@ -95,26 +98,30 @@ async function testEndpoints() {
     
     // 12. Excluir aluno (DELETE /alunos/{id})
     if (alunoId) await fetchEndPoint(`/alunos/${alunoId}`, 'DELETE');
+    await fetchEndPoint('/funcionarios/'+ funcionario.id, 'DELETE');
+    console.log("Rotas testadas...");
 
     // 13. Regras de negocios
     // 3.a
-    console.log("Testando regras de negocios!!!.");
-    console.log("Aluno com E-mail igual.");
+    console.log("\n\nTestando regras de negocios!!!.");
+    console.log("\nAluno com E-mail igual.");
     let alunoRegra = await fetchEndPoint('/alunos', 'POST', alunoTemplate);
     await fetchEndPoint('/alunos', 'POST', alunoTemplate);
     if (alunoRegra.id) await fetchEndPoint(`/alunos/${alunoRegra.id}`, 'DELETE');
-    console.log("Funcionario com E-mail igual.");
-    await fetchEndPoint('/auth/register', 'POST', funcionarioTemplate);
-    await fetchEndPoint('/auth/register', 'POST', funcionarioTemplate);
+    console.log("\nFuncionario com E-mail igual.");
+    let funcionarioRegra = await fetchEndPoint('/funcionarios', 'POST', funcionarioTemplate);
+    await fetchEndPoint('/funcionarios', 'POST', funcionarioTemplate);
+    await fetchEndPoint('/funcionarios/'+ funcionarioRegra.id, 'DELETE');
     // 3.b
-    console.log("Solicitação com autenticação.");
+    console.log("\n\nSolicitação com autenticação.");
     await fetchEndPoint('/alunos', 'GET');
-    console.log("Solicitação sem autenticação.");
+    console.log("\nSolicitação sem autenticação.");
     let tempToken = token;
     token = ""
     await fetchEndPoint('/alunos', 'GET');
     token = tempToken
     // 3.d
+    console.log("\n\nVerificando associação entre Alunos e Turmas");
     alunoRegra = await fetchEndPoint('/alunos', 'POST', alunoTemplate);
     turma = await fetchEndPoint('/turmas', 'POST', { 
         ...turmaTemplate, 

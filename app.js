@@ -35,12 +35,12 @@ const authenticateJWT = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
 
   if (!token) {
-      return res.sendStatus(403); // Acesso proibido
+      return res.status(403).json({error:"Acesso negado!!!, Sem ou Token invalido"}); // Acesso proibido
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
-          return res.sendStatus(403); // Acesso proibido
+          return res.status(403).json({error:"Acesso negado!!!, Sem ou Token invalido"}); // Acesso proibido
       }
       req.user = user;
       next();
@@ -49,7 +49,7 @@ const authenticateJWT = (req, res, next) => {
 
 app.use('/alunos', authenticateJWT, alunosRouter);
 app.use('/turmas', authenticateJWT, turmaRouter);
-app.use('/funcionarios', authenticateJWT, funcionarioRouter);
+app.use('/funcionarios', funcionarioRouter);
 app.use('/panel', panelRouter);
 app.use('/auth', authRouter);
 
