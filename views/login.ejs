@@ -15,52 +15,70 @@
         <div class="logo-text-container">
             <p class="logo">Faça seu login aqui!</p>
         </div>
-        <form action="/auth/login" method="POST" id="myForm">
+        <form id="myForm">
             <div class="input_container">
-                <label for="">Email:</label>
-                <input type="text" name="email" id="email">
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email" required>
             </div>
             <div class="input_container">
-                <label for="">Senha:</label>
-                <input type="password" name="senha" id="senha">
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" id="senha" required>
             </div>
             <div class="input_container click_me">
-                <p>Novo por aqui ? <br>Clique <a href="/auth/register">Aqui</a> para se registrar!</p>
+                <p>Novo por aqui? <br>Clique <a href="/auth/register">Aqui</a> para se registrar!</p>
             </div>
             <input type="submit" value="Logar">
+            <p id="error-message" style="color: red; display: none;">Erro ao realizar login. Verifique suas credenciais e tente novamente.</p>
         </form>
     </main>
+
     <script>
         const form = document.getElementById('myForm');
+        const errorMessage = document.getElementById('error-message');
 
         form.addEventListener('submit', function(event) {
-          event.preventDefault(); // Evita o recarregamento da página
+            event.preventDefault(); // Evita o recarregamento da página
 
-          // Cria um objeto FormData com os dados do formulário
-          const formData = new FormData(form);
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("senha").value;
 
-          const bodyData = {
-            "email": document.getElementById("email").value,
-            "senha": document.getElementById("senha").value
-          }
+            const bodyData = {
+                email: email,
+                password: senha // Corrigido para "password" se a API esperar este nome
+            };
 
-          // Faz a requisição Fetch para o endpoint
-          fetch('http://localhost:3000/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bodyData)
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data)
-            sessionStorage.setItem('authToken', data.token);
-            window.location.href = '/api-docs'
-          })
-          .catch(error => {
-            console.log(error);
-          });
+            // Faz a requisição Fetch para o endpoint
+            fetch('http://localhost:3000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    errorMessage.style.display = 'block'; // Mostra a mensagem de erro
+                    throw new Error('Falha na autenticação. Verifique suas credenciais.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.token) {
+                    console.log('Token gerado:', data.token);
+                    sessionStorage.setItem('authToken', data.token); // Armazena o token
+                    errorMessage.style.display = 'none'; // Esconde a mensagem de erro
+                    window.location.href = '/api-docs'; // Redireciona o usuário
+                } else {
+                    console.error('Token não encontrado na resposta');
+                    errorMessage.textContent = 'Erro no servidor. Tente novamente mais tarde.';
+                    errorMessage.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'Erro ao realizar login. Verifique suas credenciais e tente novamente.';
+            });
         });
     </script>
 </body>
