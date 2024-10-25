@@ -11,21 +11,20 @@ Este projeto é uma API para gerenciar alunos, funcionários e turmas de uma esc
 - **JWT (JSON Web Token)** para autenticação
 - **Swagger** para documentação da API
 - **Prisma** (opcional, como ORM adicional)
-- **bcrypt** para hash de senhas
 
 ## Requisitos
 
 - **Node.js** v14 ou superior
 - **PostgreSQL** configurado e acessível
-- **npm** ou **yarn** para gerenciamento de pacotes
+- **npm** para gerenciamento de pacotes
 
 ## Instalação
 
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/api-gestao-escolar.git
-cd api-gestao-escolar
+git clone https://github.com/mary0077/escola
+cd escola
 ```
 
 2. Instale as dependências:
@@ -41,7 +40,7 @@ DATABASE_URL=postgres://seu_usuario:senha@localhost:5432/sua_base_de_dados
 JWT_SECRET=sua_chave_secreta
 ```
 
-4. Se estiver usando **Prisma**, execute:
+4. Para aplicar migrações no BD usando o prisma, execute
 
 ```bash
 npx prisma migrate dev
@@ -58,8 +57,13 @@ npm install swagger-jsdoc swagger-ui-express
 Para iniciar a aplicação, execute:
 
 ```bash
-npm start
+node app.js
 ```
+## Documentação
+
+Para um passo a passo simplificado e direto sobre a configuração e utilização da API, consulte a [documentação da API de Gestão Escolar](https://drive.google.com/file/d/1YkGIwd2oja79-SbcGRBJ8-iZ0BxWyQqk/view?usp=sharing).
+
+
 ### Imagem Docker
 
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-fivedev/genapiescola-blue)](https://hub.docker.com/repository/docker/fivedev/genapiescola/general)
@@ -177,4 +181,4 @@ A estrutura básica do projeto é a seguinte:
 
 ## Contribuição
 
-Contribuições são bem-vindas! Se você encontrar algum problema ou tiver sugestões, sinta-se à vontade para abrir uma issue ou enviar um pull request.
+Contribuições são bem-vindas! Se você encontrar algum problema ou tiver sugestões, sinta-se à vontade para entrar em contato com a equipe 'Dev.Five'.
