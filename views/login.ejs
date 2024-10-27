@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/desktop.css">
     <title>Login</title>
 </head>
@@ -15,7 +14,7 @@
         <div class="logo-text-container">
             <p class="logo">Faça seu login aqui!</p>
         </div>
-        <form id="myForm">
+        <form id="loginForm">
             <div class="input_container">
                 <label for="email">Email:</label>
                 <input type="text" name="email" id="email" required>
@@ -33,38 +32,40 @@
     </main>
 
     <script>
-        const form = document.getElementById('myForm');
+        const loginForm = document.getElementById('loginForm');
         const errorMessage = document.getElementById('error-message');
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita o recarregamento da página
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
 
             const email = document.getElementById("email").value;
             const senha = document.getElementById("senha").value;
 
             const bodyData = {
                 email: email,
-                password: senha // Corrigido para "password" se a API esperar este nome
+                senha: senha
             };
 
-          // Faz a requisição Fetch para o endpoint
-          fetch(window.location.href, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bodyData)
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data)
-            sessionStorage.setItem('authToken', data.token);
-            window.location.href = '/api-docs'
-          })
-          .catch(error => {
-            console.log(error);
-          });
-
+            fetch('/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    sessionStorage.setItem('authToken', data.token);
+                    window.location.href = '/token'; // Redireciona para a página de token
+                } else {
+                    errorMessage.style.display = "block";
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                errorMessage.style.display = "block";
+            });
         });
     </script>
 </body>

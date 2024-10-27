@@ -52,6 +52,10 @@ app.use('/turmas', authenticateJWT, turmaRouter);
 app.use('/funcionarios', authenticateJWT, funcionarioRouter);
 app.use('/panel', panelRouter);
 app.use('/auth', authRouter);
+app.get('/token', (req, res) => {
+  res.render('token');
+});
+
 
 setupSwagger(app);
 
