@@ -14,61 +14,69 @@
         <div class="logo-text-container">
             <p class="logo">Registre-se aqui!</p>
         </div>
-        <form action="/auth/register" method="POST">
+        <form id="registerForm">
             <div class="input_container">
                 <label for="">Nome:</label>
-                <input type="text" name="nome" id="nome">
+                <input type="text" name="nome" id="nome" required>
             </div>
             <div class="input_container">
                 <label for="">Cargo:</label>
-                <input type="text" name="cargo" id="cargo">
+                <input type="text" name="cargo" id="cargo" required>
             </div>
             <div class="input_container">
                 <label for="">Email:</label>
-                <input type="text" name="email" id="email" oninput="onInputVerify()">
+                <input type="text" name="email" id="email" oninput="onInputVerify()" required>
             </div>
             <div class="input_container">
                 <label for="">Senha:</label>
-                <input type="password" name="senha" id="senha" oninput="onInputVerify()">
+                <input type="password" name="senha" id="senha" oninput="onInputVerify()" required>
             </div>
             <input type="submit" value="Registrar" id="submit">
         </form>
     </main>
     <script>
-        function isDisable(document, value){
-            document.disabled = value;
+        function isDisable(element, value){
+            element.disabled = !value;
         }
-        //function onInputVerify(){
-        //    const buttonDocument = document.getElementById('submit')
-        //    isDisable(buttonDocument, verifyEmail());
-        //    isDisable(buttonDocument, verifyPasswd());
-        //}
-
-        //VERIFICAR ERRO
-
+        function onInputVerify(){
+            const buttonDocument = document.getElementById('submit');
+            isDisable(buttonDocument, (verifyPasswd() && verifyEmail()));
+        }
+        
         function verifyEmail(){
-            const Document = document.getElementById('email');
-            const email = Document.value;
-
+            const email = document.getElementById('email').value;
             const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-            if(!email.test(regex)){
-                return false;
-            }
-
-            return true;
+            return regex.test(email);
         }
         function verifyPasswd(){
-            const Document = document.getElementById('senha');
-            const senha = Document.value;
-
-            if(senha.length < 6){
-                return false;
-            }
-
-            return true;
+            const senha = document.getElementById('senha').value;
+            return senha.length >= 6;
         }
+
+        // Envio do formulário usando Fetch
+        const registerForm = document.getElementById('registerForm');
+        registerForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o recarregamento da página
+            
+            const nome = document.getElementById('nome').value;
+            const cargo = document.getElementById('cargo').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            
+            fetch('/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nome, cargo, email, senha })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Funcionário cadastrado com sucesso!");
+                window.location.href = '/auth/login';
+            })
+            .catch(error => console.log(error));
+        });
     </script>
-    
 </body>
 </html>
