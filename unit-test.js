@@ -1,6 +1,6 @@
 let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI5ODQ3MDA2LCJleHAiOjE3Mjk4NTc4MDZ9.LGmaWNb3oWxY3HrnlgJoC-BQTldop2mbmSfswPMReyQ';
 let alunoId, turmaId; // IDs a serem atribuídos após criação
-const host = 'http://localhost:3000'
+const host = 'https://genapiescola.onrender.com'
 const alunoTemplate = {
     nome: "Willian Massao",
     email: "teste"+ Math.floor(Math.random() * 999) + "@gmail.com",
@@ -37,7 +37,7 @@ async function fetchEndPoint(endpoint, method, body = null) {
             console.error(`Erro em ${method} ${endpoint}:`, data);
             return null;
         }
-        console.log(`Sucesso em ${method} ${endpoint}:`);
+        console.log(`Sucesso em ${method} ${endpoint}:`, data);
         return data;
     } catch (error) {
         console.error(`Erro na requisição ${method} ${endpoint}:`, error);
