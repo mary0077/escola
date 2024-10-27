@@ -6,6 +6,13 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRATION = '3h';
 
 async function cadastrar(nome, email, senha, cargo) {
+    // Verificar se o e-mail já está cadastrado
+    const funcionarioExistente = await Funcionario.findOne({ where: { Email: email } });
+    if (funcionarioExistente) {
+        throw new Error('E-mail já cadastrado');
+    }
+
+    // Criar o funcionário caso o e-mail não exista
     const hashedPassword = await bcrypt.hash(senha, 10);
     return Funcionario.create({ nome, Email: email, senha: hashedPassword, cargo });
 }
@@ -20,18 +27,5 @@ async function login(Email, senha) {
     const token = jwt.sign({ id: funcionario.id }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
     return { token };
 }
-
-async function cadastrar(nome, email, senha, cargo) {
-    // Verificar se o e-mail já está cadastrado
-    const funcionarioExistente = await Funcionario.findOne({ where: { Email: email } });
-    if (funcionarioExistente) {
-        throw new Error('E-mail já cadastrado');
-    }
-
-    // Criar o funcionário caso o e-mail não exista
-    const hashedPassword = await bcrypt.hash(senha, 10);
-    return Funcionario.create({ nome, Email: email, senha: hashedPassword, cargo });
-}
-
 
 module.exports = { cadastrar, login };

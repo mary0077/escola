@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token JWT</title>
+    <link rel="stylesheet" type="text/css" href="/css/desktop.css">
+    <style>
+        .token-container {
+            width: 350px;
+            background-color: #d4d4ce;
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .token-container h1 {
+            font-size: 1.8em;
+            color: #0f0f20;
+            margin-bottom: 10px;
+        }
+
+        .token-container p {
+            color: #333;
+            font-size: 0.9em;
+            font-family: 'Roboto', sans-serif;
+            word-break: break-all;
+            padding: 10px;
+            background-color: #FAF3E0;
+            border-radius: 5px;
+            border: 1px solid #B0A392;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .logout-button {
+            background-color: #FFD700;
+            color: #040053;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .logout-button:hover {
+            background-color: #E6B800;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="logo-container">
+            <img src="/img/logodevfive.png" alt="Logo" class="logo-img">
+        </div>
+        <div class="token-container">
+            <h1>Bem-vindo!</h1>
+            <p>Seu token JWT:</p>
+            <p id="token"></p>
+        </div>
+        <div class="button-container">
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </main>
+
+    <script>
+        // Recupera o token do sessionStorage e exibe na página
+        const token = sessionStorage.getItem('authToken');
+        const tokenParagraph = document.getElementById('token');
+
+        if (token) {
+            tokenParagraph.textContent = token;
+        } else {
+            tokenParagraph.textContent = 'Nenhum token encontrado. Por favor, faça login novamente.';
+        }
+
+        // Função de logout
+        function logout() {
+            sessionStorage.removeItem('authToken');
+            window.location.href = '/auth/login';
+        }
+    </script>
+</body>
+</html>

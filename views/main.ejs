@@ -35,7 +35,7 @@
                         <p><strong>Nome:</strong> <%= student.nome %></p>
                         <p><strong>Idade:</strong> <%= student.idade %></p>
                         <p><strong>Email:</strong> <%= student.email %></p>
-                        <button class="delete-button" onclick="excluirAluno(<%= student.id %>)">Excluir</button>
+                        <button class="delete-button" onclick="excluirAluno(<% student.id %>)">Excluir</button>
                     </div>
                 <% })%>
             </div>
