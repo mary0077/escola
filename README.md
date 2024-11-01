@@ -2,6 +2,8 @@
 
 Este projeto é uma API para gerenciar alunos, funcionários e turmas de uma escola. A aplicação é desenvolvida em **Node.js** com o framework **Express**, utilizando **Sequelize** para interagir com o banco de dados PostgreSQL e autenticação JWT para proteger rotas específicas. A documentação da API é gerada automaticamente com **Swagger**.
 
+<img src="./public/img/devfive1.png" alt="screenshot do projeto">
+
 ## Tecnologias Utilizadas
 
 - **Node.js**
@@ -178,6 +180,9 @@ A estrutura básica do projeto é a seguinte:
 ├── package.json         # Gerenciamento de dependências e scripts
 └── README.md            # Documentação do projeto
 ```
+
+## 💻 Demonstração
+Para visualizar uma prévia do projeto <a href="https://genapiescola.onrender.com/auth/login/" target="_blank"><b>clique aqui</b></a>
 
 ## Contribuição
 
