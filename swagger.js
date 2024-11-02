@@ -7,7 +7,7 @@ const options = {
     info: {
       title: 'API de Alunos',
       version: '1.0.0',
-      description: 'API para gerenciar alunos de uma esco la'
+      description: 'API para gerenciar alunos de uma escola'
     },
     servers: [
       {
