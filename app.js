@@ -10,6 +10,7 @@ const panelRouter = require('./routes/panel')
 const setupSwagger = require('./swagger');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -70,3 +71,6 @@ sequelize.sync()
   .catch(err => {
     console.error('Erro ao conectar com o banco de dados:', err);
   });
+  
+// Middleware de tratamento de erros (deve estar no final)
+app.use(errorHandler);
