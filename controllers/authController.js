@@ -6,6 +6,12 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRATION = '3h';
 
 async function cadastrar(nome, email, senha, cargo) {
+    // Verificar se o e-mail tem formato válido
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+        throw new Error('E-mail inválido');
+    }
+
     // Verificar se o e-mail já está cadastrado
     const funcionarioExistente = await Funcionario.findOne({ where: { Email: email } });
     if (funcionarioExistente) {
