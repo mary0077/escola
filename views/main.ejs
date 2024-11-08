@@ -30,14 +30,7 @@
                 </div>
             </div>
             <div class="students-list" id="students-list">
-                <% data.students.forEach((student)=>{%>
-                    <div class="student-card">
-                        <p><strong>Nome:</strong> <%= student.nome %></p>
-                        <p><strong>Idade:</strong> <%= student.idade %></p>
-                        <p><strong>Email:</strong> <%= student.email %></p>
-                        <button class="delete-button" onclick="excluirAluno(<% student.id %>)">Excluir</button>
-                    </div>
-                <% })%>
+                <!-- Lista de alunos será gerada aqui pelo JavaScript -->
             </div>
         </section>
 
@@ -51,14 +44,14 @@
                 </div>
             </div>
             <div class="rooms-list" id="room-list">
-                <% data.class.forEach((student)=>{%>
+                <% data.rooms.forEach((room) => { %>
                     <div class="room-card">
-                        <p><strong>Curso:</strong> <%= student.nome %></p>
-                        <p><strong>Instrutor:</strong> <%= student.instrutor %></p>
-                        <p><strong>Alunos:</strong> <%= student.Alunos %></p>
-                        <button class="delete-button" onclick="excluirSala(<%= student.id %>)">Excluir</button>
+                        <p><strong>Curso:</strong> <%= room.nome %></p>
+                        <p><strong>Instrutor:</strong> <%= room.instrutor %></p>
+                        <p><strong>Alunos:</strong> <%= room.Alunos %></p>
+                        <button class="delete-button" onclick="excluirSala(<%= room.id %>)">Excluir</button>
                     </div>
-                <% })%>
+                <% }) %>
             </div>
         </section>
     </main>
@@ -91,23 +84,24 @@
         function getAuthToken() {
             return sessionStorage.getItem('authToken');
         }
+    
         function coletarDadosFormulario(formId) {
             const form = document.getElementById(formId);
             const formData = new FormData(form);
             const dados = {};
-
+    
             formData.forEach((value, key) => {
-                dados[key] = value; // Adiciona os dados ao objeto
+                dados[key] = value;
             });
-        
-            return JSON.stringify(dados); // Retorna o objeto como uma string JSON
+    
+            return dados;
         }
-
+    
         function showForm(type) {
             const modal = document.getElementById('modal');
             modal.classList.remove('hidden');
             document.getElementById('main-content').style.filter = 'blur(5px)';
-
+    
             if (type === 'aluno') {
                 document.getElementById('form-aluno').classList.remove('hidden');
                 document.getElementById('form-sala').classList.add('hidden');
@@ -116,184 +110,174 @@
                 document.getElementById('form-aluno').classList.add('hidden');
             }
         }
-
+    
         function closeForm() {
             const modal = document.getElementById('modal');
             modal.classList.add('hidden');
             document.getElementById('main-content').style.filter = 'none';
         }
-
-        document.getElementById('form-aluno').addEventListener('submit', (event)=>{
-            event.preventDefault();
-
-            adicionarAluno();
-        })
-
+    
         async function adicionarAluno() {
             const authToken = getAuthToken();
-            const FormData = coletarDadosFormulario('form-aluno');
-
-            console.log(FormData);
-
-            try{
+            const dados = coletarDadosFormulario('form-aluno');
+    
+            try {
                 const res = await fetch('/alunos', {
                     method: "POST",
                     headers: {
-                        "Content-Type":"application/json",
+                        "Content-Type": "application/json",
                         "Authorization": "Bearer " + authToken
                     },
-                    body: FormData
+                    body: JSON.stringify(dados)
                 });
-
-                if(res.ok){
-                    console.log(await res.json())
+    
+                if (res.ok) {
+                    console.log(await res.json());
+                    refreshAlunos();
                 }
-            }catch(err){
+            } catch (err) {
                 console.log(err);
             }
-            console.log("Aluno adicionado - Token:", authToken);
             closeForm();
         }
-
-        function adicionarSala() {
+    
+        async function adicionarSala() {
             const authToken = getAuthToken();
-            const FormData = coletarDadosFormulario('form-sala');
-
-            try{
-                fetch('/turmas', {
+            const dados = coletarDadosFormulario('form-sala');
+    
+            try {
+                const res = await fetch('/turmas', {
                     method: "POST",
                     headers: {
-                        "Content-Type":"application/json",
+                        "Content-Type": "application/json",
                         "Authorization": "Bearer " + authToken
                     },
-                    body: FormData
+                    body: JSON.stringify(dados)
                 });
-            }catch(err){
+    
+                if (res.ok) {
+                    console.log(await res.json());
+                    refreshSalas();
+                }
+            } catch (err) {
                 console.log(err);
             }
             closeForm();
         }
-
+    
         async function refreshAlunos() {
             const authToken = getAuthToken();
             const studentsDOM = document.getElementById('students-list');
-
-            try{
+    
+            try {
                 studentsDOM.style.opacity = "0.5";
                 const res = await fetch('/alunos', {
                     method: "GET",
                     headers: {
-                        "Content-Type":"application/json",
+                        "Content-Type": "application/json",
                         "Authorization": "Bearer " + authToken
                     }
                 });
-
-                if(res.ok){
+    
+                if (res.ok) {
                     studentsDOM.style.opacity = "1";
-                    const resJson = await res.json()
-                    console.log(resJson);
-
-
+                    const resJson = await res.json();
                     studentsDOM.innerHTML = "";
-
-                    for(let stu of resJson){
+    
+                    for (let stu of resJson) {
                         studentsDOM.innerHTML += `
-                        <div class="student-card" onclick="window.location.href='#'">
-                            <p><strong>Nome:</strong> ${stu.nome}</p>
-                            <p><strong>Idade:</strong> ${stu.idade}</p>
-                            <p><strong>Email:</strong> ${stu.email}</p>
-                            <button class="delete-button" onclick="excluirAluno(${stu.id})">Excluir</button>
-                        </div>
-                        `
+                            <div class="student-card">
+                                <p><strong>Nome:</strong> ${stu.nome}</p>
+                                <p><strong>Idade:</strong> ${stu.idade}</p>
+                                <p><strong>Email:</strong> ${stu.email}</p>
+                                <button class="delete-button" onclick="excluirAluno(${stu.id})">Excluir</button>
+                            </div>
+                        `;
                     }
                 }
-            }catch(err){
-                studentsDOM.style.backgroundColor = "red";
+            } catch (err) {
                 console.log(err);
             }
-            console.log("Aluno adicionado - Token:", authToken);
         }
-
+    
         async function refreshSalas() {
             const authToken = getAuthToken();
             const roomDOM = document.getElementById('room-list');
-
-            try{
+    
+            try {
                 roomDOM.style.opacity = "0.5";
                 const res = await fetch('/turmas', {
                     method: "GET",
                     headers: {
-                        "Content-Type":"application/json",
+                        "Content-Type": "application/json",
                         "Authorization": "Bearer " + authToken
                     }
                 });
-
-                if(res.ok){
+    
+                if (res.ok) {
                     roomDOM.style.opacity = "1";
-                    const resJson = await res.json()
-                    console.log(resJson);
-
-
+                    const resJson = await res.json();
                     roomDOM.innerHTML = "";
-
-                    for(let stu of resJson){
+    
+                    for (let room of resJson) {
                         roomDOM.innerHTML += `
-                        <div class="room-card" onclick="window.location.href='#'">
-                            <p><strong>Curso:</strong> ${stu.nome}</p>
-                            <p><strong>Instrutor:</strong> ${stu.instrutor}</p>
-                            <p><strong>Alunos:</strong> ${stu.Alunos}</p>
-                            <button class="delete-button" onclick="excluirSala(${stu.id})">Excluir</button>
-                        </div>
-                        `
+                            <div class="room-card">
+                                <p><strong>Curso:</strong> ${room.nome}</p>
+                                <p><strong>Instrutor:</strong> ${room.instrutor}</p>
+                                <p><strong>Alunos:</strong> ${room.Alunos}</p>
+                                <button class="delete-button" onclick="excluirSala(${room.id})">Excluir</button>
+                            </div>
+                        `;
                     }
                 }
-            }catch(err){
-                roomDOM.style.backgroundColor = "red";
+            } catch (err) {
                 console.log(err);
             }
         }
-        async function excluirSala(id){
-            const authToken = getAuthToken();
-            const roomDOM = document.getElementById('room-list');
-
-            try{
-                const res = await fetch('/turmas/' + id, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type":"application/json",
-                        "Authorization": "Bearer " + authToken
-                    }
-                });
-
-                if(res.ok){
-                    const resJson = await res.json()
-                    console.log(resJson);
-                }
-            }catch(err){
-                console.log(err);
-            }
-        }
+    
         async function excluirAluno(id) {
             const authToken = getAuthToken();
-            const roomDOM = document.getElementById('room-list');
-
-            try{
-                const res = await fetch('/alunos/' + id, {
+    
+            try {
+                const res = await fetch(`/alunos/${id}`, {
                     method: "DELETE",
                     headers: {
-                        "Content-Type":"application/json",
                         "Authorization": "Bearer " + authToken
                     }
                 });
-
-                if(res.ok){
-                    const resJson = await res.json()
-                    console.log(resJson);
+    
+                if (res.ok) {
+                    refreshAlunos();
                 }
-            }catch(err){
+            } catch (err) {
                 console.log(err);
             }
         }
+    
+        async function excluirSala(id) {
+            const authToken = getAuthToken();
+    
+            try {
+                const res = await fetch(`/turmas/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + authToken
+                    }
+                });
+    
+                if (res.ok) {
+                    refreshSalas();
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        // Carrega a lista de alunos ao carregar a página
+        window.onload = function() {
+            refreshAlunos();
+            refreshSalas();
+        };
     </script>
 </body>
 </html>
